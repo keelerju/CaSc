@@ -6,7 +6,7 @@ class Shift:
     """ Class representation of a shift """
     def __init__(self, *,
                  day_of_week=0, year=2023, month=1, day_of_month=1, location=Location(5), start_time=0, end_time=0,
-                 caregiver_type=(), special_reqs=(), caregiver_id_num=0):
+                 caregiver_type=None, special_reqs=None, caregiver_id_num=0):
 
         # Sunday is day 1
         self.day_of_week = day_of_week
@@ -17,5 +17,8 @@ class Shift:
         self.start_time = start_time
         self.end_time = end_time
         self.caregiver_type = (CaregiverType(caregiver_type))
-        self.special_reqs = [special_reqs]
+        if not special_reqs:
+            self.special_reqs = set()
+        else:
+            self.special_reqs = set(special_reqs)
         self.caregiver_id_num = caregiver_id_num

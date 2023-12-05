@@ -22,12 +22,49 @@ class Constraints:
             print("* 3 Shift requires chemo admixture   *")
             print("**************************************")
             _criteria = int(input("Please enter the criteria for the constraint: "))
+
+            if (_criteria == 1) or (_criteria == 2):
+                _caregiver_id_num = input("Please enter the Caregiver ID number: ")
+
             if _criteria == 3:
-                pass
-
-            if _criteria == 1:
-                _caregiver_id_num = input("Please enter the value of the criteria: ")
-
+                print("**************************************")
+                print("* Is this shift for a                *")
+                print("* 1 Pharmacist                       *")
+                print("*    or                              *")
+                print("* 2 Tech                             *")
+                print("**************************************")
+                _caregiver_local_type = int(input("Please enter the Caregiver type: "))
+                if _caregiver_local_type == 1:
+                    # display RPh shift options
+                    index = 1
+                    for s in rph_schedule:
+                        if s.date == _date:
+                            print(f"Index: {index}    {vars(s)}")
+                    ts = input("Please enter which shift to apply this to (ENTER for none): ")
+                    if ts == "":
+                        break
+                    else:
+                        # make the change to the RPh schedule
+                        s_index = 1
+                        for s in rph_schedule:
+                            if (s.date == _date) and (s_index == index):
+                                s.special_reqs.add("CHEMO")
+                elif _caregiver_local_type == 2:
+                    # display Tech shift options
+                    index = 1
+                    for s in tech_schedule:
+                        if s.date == _date:
+                            print(f"Index: {index}    {vars(s)}")
+                    ts = input("Please enter which shift to apply this to (ENTER for none): ")
+                    if ts == "":
+                        break
+                    else:
+                        # make the change to the Tech schedule
+                        s_index = 1
+                        for s in tech_schedule:
+                            if (s.date == _date) and (s_index == index):
+                                s.special_reqs.add("CHEMO")
+            # update the list of constraints
             self.constraints.append(Constraint(date=_date, criteria=_criteria, caregiver_id_num=_caregiver_id_num))
 
     def remove_constraint(self):
