@@ -70,15 +70,7 @@ def main():
     if (cont == "N") or (cont == "n") or (cont == "no") or (cont == "NO") or (cont == "No"):
         pass
     else:
-        while True:
-            constraint_date = input("Please enter the date of a constraint in the format of MM/DD/YYYY: ")
-            constraint_date = date(int(constraint_date[6:10]), int(constraint_date[0:2]), int(constraint_date[3:5]))
-
-            constraint_criteria = int(input("Please enter the criteria for the constraint: "))
-
-            constraint_value = input("Please enter the value of the criteria: ")
-
-            constraints.add_constraint(constraint_date, constraint_criteria, constraint_value)
+        constraints.add_constraints()
 
 
 if __name__ == '__main__':

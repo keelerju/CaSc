@@ -1,7 +1,7 @@
 class Constraint:
     """ Class representation of a constraint """
 
-    def __init__(self, *, date, criteria, employee_id_num):
+    def __init__(self, *, date, criteria, caregiver_id_num):
         self.date = date
         self.criteria = criteria
-        self.employee_id_num = employee_id_num
+        self.caregiver_id_num = caregiver_id_num
