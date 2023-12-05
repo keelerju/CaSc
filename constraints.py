@@ -22,22 +22,29 @@ class Constraints:
             print("* 2 Caregiver must work this date    *")
             print("* 3 Shift requires chemo admixture   *")
             print("**************************************")
-            _criteria = int(input("Please enter the criteria for the constraint: "))
+            _criteria = input("Please enter the criteria for the constraint: ")
 
-            if (_criteria == 1) or (_criteria == 2):
+            if _criteria == "1":
                 _caregiver_id_num = input("Please enter the Caregiver ID number: ")
                 for _caregiver in team.team:
-                    pass
-
-            if _criteria == 3:
+                    if _caregiver.caregiver_id_num == _caregiver_id_num:
+                        _caregiver.cant_dates.add(_date)
+            
+            elif _criteria == "2":
+                                _caregiver_id_num = input("Please enter the Caregiver ID number: ")
+                for _caregiver in team.team:
+                    if _caregiver.caregiver_id_num == _caregiver_id_num:
+                        _caregiver.must_dates.add(_date)
+                
+            else _criteria == "3":
                 print("**************************************")
                 print("* Is this shift for a                *")
                 print("* 1 Pharmacist                       *")
                 print("*    or                              *")
                 print("* 2 Tech                             *")
                 print("**************************************")
-                _caregiver_local_type = int(input("Please enter the Caregiver type: "))
-                if _caregiver_local_type == 1:
+                _caregiver_local_type = input("Please enter the Caregiver type: ")
+                if _caregiver_local_type == "1":
                     # display RPh shift options
                     index = 1
                     for s in rph_schedule:
@@ -52,7 +59,7 @@ class Constraints:
                         for s in rph_schedule:
                             if (s.date == _date) and (s_index == index):
                                 s.special_reqs.add("CHEMO")
-                elif _caregiver_local_type == 2:
+                else _caregiver_local_type == "2":
                     # display Tech shift options
                     index = 1
                     for s in tech_schedule:
