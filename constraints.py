@@ -1,6 +1,7 @@
 from constraint import Constraint
 from datetime import date
 from conscrittype import ConsCritType
+from caregivertype import CaregiverType
 
 
 class Constraints:
@@ -25,6 +26,8 @@ class Constraints:
 
             if (_criteria == 1) or (_criteria == 2):
                 _caregiver_id_num = input("Please enter the Caregiver ID number: ")
+                for _caregiver in team.team:
+                    pass
 
             if _criteria == 3:
                 print("**************************************")
