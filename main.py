@@ -13,7 +13,6 @@ from techmonth import TechMonth
 from team import Team
 from datetime import date
 from constraints import Constraints
-from constype import ConsType
 
 
 def main():
@@ -75,14 +74,11 @@ def main():
             constraint_date = input("Please enter the date of a constraint in the format of MM/DD/YYYY: ")
             constraint_date = date(int(constraint_date[6:10]), int(constraint_date[0:2]), int(constraint_date[3:5]))
 
-            constraint_type = int(input("Please enter the type of constraint (1=Caregiver, 2=Shift): "))
-
             constraint_criteria = int(input("Please enter the criteria for the constraint: "))
-            constraint_criteria = ConsType(constraint_criteria)
 
             constraint_value = input("Please enter the value of the criteria: ")
 
-            constraints.add_constraint(constraint_date, constraint_type, constraint_criteria, constraint_value)
+            constraints.add_constraint(constraint_date, constraint_criteria, constraint_value)
 
 
 if __name__ == '__main__':

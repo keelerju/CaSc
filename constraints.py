@@ -7,8 +7,8 @@ class Constraints:
     def __init__(self):
         self.constraints = []
 
-    def add_constraint(self, date, constraint_type, criteria, value):
-        self.constraints.append(Constraint(date, constraint_type, criteria, value))
+    def add_constraint(self, date, criteria, value):
+        self.constraints.append(Constraint(date, criteria, value))
 
     def remove_constraint(self):
         self.list_constraints()
