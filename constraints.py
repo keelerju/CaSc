@@ -31,7 +31,7 @@ class Constraints:
                         _caregiver.cant_dates.add(_date)
             
             elif _criteria == "2":
-                                _caregiver_id_num = input("Please enter the Caregiver ID number: ")
+                _caregiver_id_num = input("Please enter the Caregiver ID number: ")
                 for _caregiver in team.team:
                     if _caregiver.caregiver_id_num == _caregiver_id_num:
                         _caregiver.must_dates.add(_date)
