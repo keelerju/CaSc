@@ -1,5 +1,6 @@
 from constraint import Constraint
 from datetime import date
+from conscrittype import ConsCritType
 
 
 class Constraints:
@@ -8,21 +9,24 @@ class Constraints:
     def __init__(self):
         self.constraints = []
 
-    def add_constraints(self):
+    def add_constraints(self, team, rph_schedule, tech_schedule):
         # Accept constraints from the user and append them to the list of constraints
         repeat = True
         while repeat:
             _date = input("Please enter the date of a constraint in the format of MM/DD/YYYY: ")
             _date = date(int(_date[6:10]), int(_date[0:2]), int(_date[3:5]))
 
-            print("****************************************")
-            print("* (1) Caregiver cannot work this date  *")
-            print("* (2) Caregiver must work this date    *")
-            print("* (3) Shift requires chemo admixture   *")
-            print("****************************************")
+            print("**************************************")
+            print("* 1 Caregiver cannot work this date  *")
+            print("* 2 Caregiver must work this date    *")
+            print("* 3 Shift requires chemo admixture   *")
+            print("**************************************")
             _criteria = int(input("Please enter the criteria for the constraint: "))
+            if _criteria == 3:
+                pass
 
-            _caregiver_id_num = input("Please enter the value of the criteria: ")
+            if _criteria == 1:
+                _caregiver_id_num = input("Please enter the value of the criteria: ")
 
             self.constraints.append(Constraint(date=_date, criteria=_criteria, caregiver_id_num=_caregiver_id_num))
 

@@ -70,7 +70,7 @@ def main():
     if (cont == "N") or (cont == "n") or (cont == "no") or (cont == "NO") or (cont == "No"):
         pass
     else:
-        constraints.add_constraints()
+        constraints.add_constraints(team, rph_month.rph_schedule, tech_month.tech_schedule)
 
 
 if __name__ == '__main__':
