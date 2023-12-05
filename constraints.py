@@ -15,6 +15,11 @@ class Constraints:
             _date = input("Please enter the date of a constraint in the format of MM/DD/YYYY: ")
             _date = date(int(_date[6:10]), int(_date[0:2]), int(_date[3:5]))
 
+            print("****************************************")
+            print("* (1) Caregiver cannot work this date  *")
+            print("* (2) Caregiver must work this date    *")
+            print("* (3) Shift requires chemo admixture   *")
+            print("****************************************")
             _criteria = int(input("Please enter the criteria for the constraint: "))
 
             _caregiver_id_num = input("Please enter the value of the criteria: ")
