@@ -61,18 +61,18 @@ class Constraints:
                                 _shift.special_reqs.add("CHEMO")
                 elif _caregiver_local_type == "2":
                     # display Tech shift options
-                    _index = 1
+                    index = 1
                     for _shift in tech_schedule:
                         if _shift.date == _date:
-                            print(f"Index: {_index}    {vars(_shift)}")
+                            print(f"Index: {index}    {vars(_shift)}")
                     _template_shift = input("Please enter which shift to apply this to (ENTER for none): ")
                     if _template_shift == "":
                         break
                     else:
                         # make the change to the Tech schedule
-                        _shift_index = 1
+                        shift_index = 1
                         for _shift in tech_schedule:
-                            if (_shift.date == _date) and (_shift_index == _index):
+                            if (_shift.date == _date) and (_shift_index == index):
                                 _shift.special_reqs.add("CHEMO")
             # update the list of constraints
             self.constraints.append(Constraint(date=_date, criteria=_criteria, caregiver_id_num=_caregiver_id_num))
