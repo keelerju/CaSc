@@ -6,7 +6,6 @@
 #     Algorithm factors: fairness, workload distribution, caregiver satisfaction
 #     Conflict management: overlapping shifts, exceeding maximum hours
 
-from caregiver import Caregiver
 from schedule import Schedule
 from rphmonth import RphMonth
 from techmonth import TechMonth
@@ -19,19 +18,7 @@ def main():
 
     team = Team()
     team_size = int(input("Enter the number of caregivers: "))
-
-    # # Create a team of caregivers, one having a specific caregiver id #, and the rest being default, print the roster,
-    # # then remove the team member with custom caregiver id #, print roster again, then erase the team.
-    for _caregiver in range(team_size-1):
-        _caregiver = Caregiver()
-        team.add_team_member(_caregiver)
-    team.add_team_member(Caregiver(caregiver_id_num=1111111))
-    team.roster()
-    print()
-    team.remove_team_member(1111111)
-    team.roster()
-    team.erase_team()
-    # # end of test
+    team.build_team(team_size)
 
     month = int(input("\nWhich month is being created (1-12)? "))
     year = int(input("Of which year? "))
