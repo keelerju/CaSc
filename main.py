@@ -54,11 +54,13 @@ def main():
 
     rph_month = RphMonth(year, month)
     rph_month.fill_blank(schedule.template.rph_template, holidays)
-    rph_month.print_schedule()
+    rph_month.fill_old()
+    # rph_month.print_schedule()
 
     tech_month = TechMonth(year, month)
     tech_month.fill_blank(schedule.template.tech_template, holidays)
-    tech_month.print_schedule()
+    tech_month.fill_old()
+    # tech_month.print_schedule()
 
     constraints = Constraints()
 
