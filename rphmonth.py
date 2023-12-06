@@ -38,22 +38,22 @@ class RphMonth:
             year_of_prev_month = self.year - 1
         else:
             month_prev = self.month - 1
-        for s in rph_template_prev:
-            s.year = year_of_prev_month
-            s.month = month_prev
+        for _shift in rph_template_prev:
+            _shift.year = year_of_prev_month
+            _shift.month = month_prev
         # Current month
-        for s in rph_template_current:
-            s.year = self.year
-            s.month = self.month
+        for _shift in rph_template_current:
+            _shift.year = self.year
+            _shift.month = self.month
         # Month after
         if self.month == 12:
             month_after = 1
             year_of_month_after = self.year + 1
         else:
             month_after = self.month + 1
-        for s in rph_template_after:
-            s.year = year_of_month_after
-            s.month = month_after
+        for _shift in rph_template_after:
+            _shift.year = year_of_month_after
+            _shift.month = month_after
 
         # determine the weekday of the 1st day of the month and the number of days of the month prior
         weekday_of_first_day_of_month_prev, num_of_days_in_month_prev = (
@@ -88,78 +88,75 @@ class RphMonth:
         if weekday_of_first_day_of_current_month != 1:
             day_of_month = last_sunday_day_of_month_prev
             ignore_days = True
-            for s in rph_template_prev:
-                if s.day_of_week > weekday:
+            for _shift in rph_template_prev:
+                if _shift.day_of_week > weekday:
                     day_of_month = day_of_month + 1
-                    weekday = s.day_of_week
+                    weekday = _shift.day_of_week
                     if weekday > weekday_of_last_day_of_month_prev:
                         break
-                s.day_of_month = day_of_month
-                self.rph_schedule.append(s)
+                _shift.day_of_month = day_of_month
+                self.rph_schedule.append(_shift)
 
         # loop through shifts of the first week of the current month and append shifts to rph_schedule
         day_of_month = 1
-        for s in copy.deepcopy(rph_template_current):
-            if ignore_days and (s.day_of_week < weekday):
+        for _shift in copy.deepcopy(rph_template_current):
+            if ignore_days and (_shift.day_of_week < weekday):
                 continue
             ignore_days = False
-            if s.day_of_week > weekday:
+            if _shift.day_of_week > weekday:
                 day_of_month = day_of_month + 1
-                weekday = s.day_of_week
-            s.day_of_month = day_of_month
-            self.rph_schedule.append(s)
+                weekday = _shift.day_of_week
+            _shift.day_of_month = day_of_month
+            self.rph_schedule.append(_shift)
 
         # loop through shifts of subsequent weeks of the current month and append shifts to rph_schedule
         weekday = 1
         day_of_month = day_of_month + 1
-        for w in range(int((num_of_days_in_current_month - day_of_month) / 7 + 1)):
-            for s in copy.deepcopy(rph_template_current):
-                if s.day_of_week != weekday:
+        for _week in range(int((num_of_days_in_current_month - day_of_month) / 7 + 1)):
+            for _shift in copy.deepcopy(rph_template_current):
+                if _shift.day_of_week != weekday:
                     day_of_month = day_of_month + 1
-                    weekday = s.day_of_week
+                    weekday = _shift.day_of_week
                 if day_of_month > num_of_days_in_current_month:
                     break
-                s.day_of_month = day_of_month
-                self.rph_schedule.append(s)
+                _shift.day_of_month = day_of_month
+                self.rph_schedule.append(_shift)
 
         # loop through shifts of the first partial week of the next month and append shifts to rph_schedule
         if weekday_of_last_day_of_current_month != 7:
             day_of_month = 1
-            for s in rph_template_after:
-                if s.day_of_week < weekday:
+            for _shift in rph_template_after:
+                if _shift.day_of_week < weekday:
                     continue
-                if s.day_of_week > weekday:
+                if _shift.day_of_week > weekday:
                     day_of_month = day_of_month + 1
-                    weekday = s.day_of_week
-                s.day_of_month = day_of_month
-                self.rph_schedule.append(s)
+                    weekday = _shift.day_of_week
+                _shift.day_of_month = day_of_month
+                self.rph_schedule.append(_shift)
             if holidays:
                 self.add_holidays(holidays)
 
     def add_holidays(self, holidays):
-        r = []
+        _rph_schedule_local = []
         first_instance = True
-        for s in self.rph_schedule:
+        for _shift in self.rph_schedule:
             for holiday in holidays:
-                if (s.day_of_month == holiday.day) and s.month == holiday.month and first_instance:
+                if (_shift.day_of_month == holiday.day) and _shift.month == holiday.month and first_instance:
                     weekday_of_holiday = self.convert(calendar.weekday(holiday.year, holiday.month, holiday.day))
-                    r.append(Shift(
+                    _rph_schedule_local.append(Shift(
                         day_of_week=weekday_of_holiday, day_of_month=holiday.day, location=Location.INPATIENT,
                         start_time=7.5, end_time=12, caregiver_type=CaregiverType.RPH, special_reqs=()))
                     first_instance = False
-                elif (s.day_of_month == holiday.day) and (s.month == holiday.month) and not first_instance:
+                elif (_shift.day_of_month == holiday.day) and (_shift.month == holiday.month) and not first_instance:
                     pass
-                elif s.day_of_week != holiday:
-                    r.append(s)
-        self.rph_schedule = r
+                elif _shift.day_of_week != holiday:
+                    _rph_schedule_local.append(_shift)
+        self.rph_schedule = _rph_schedule_local
 
     def print_schedule(self):
         print()
-        for s in self.rph_schedule:
-            print(vars(s))
+        for _shift in self.rph_schedule:
+            print(vars(_shift))
 
-    def fill_must(self):
-        pass
-
-    def random_assign(self):
+    def fill_old(self):
         pass

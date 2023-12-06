@@ -22,9 +22,9 @@ def main():
 
     # # Create a team of caregivers, one having a specific caregiver id #, and the rest being default, print the roster,
     # # then remove the team member with custom caregiver id #, print roster again, then erase the team.
-    for cg in range(team_size-1):
-        cg = Caregiver()
-        team.add_team_member(cg)
+    for _caregiver in range(team_size-1):
+        _caregiver = Caregiver()
+        team.add_team_member(_caregiver)
     team.add_team_member(Caregiver(caregiver_id_num=1111111))
     team.roster()
     print()

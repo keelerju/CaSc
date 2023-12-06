@@ -1,6 +1,6 @@
 from constraint import Constraint
 from datetime import date
-from conscrittype import ConsCritType
+from criteriatype import CriteriaType
 from caregivertype import CaregiverType
 
 
@@ -36,7 +36,7 @@ class Constraints:
                     if _caregiver.caregiver_id_num == _caregiver_id_num:
                         _caregiver.must_dates.add(_date)
                 
-            else _criteria == "3":
+            elif _criteria == "3":
                 print("**************************************")
                 print("* Is this shift for a                *")
                 print("* 1 Pharmacist                       *")
@@ -46,34 +46,34 @@ class Constraints:
                 _caregiver_local_type = input("Please enter the Caregiver type: ")
                 if _caregiver_local_type == "1":
                     # display RPh shift options
-                    index = 1
-                    for s in rph_schedule:
-                        if s.date == _date:
-                            print(f"Index: {index}    {vars(s)}")
-                    ts = input("Please enter which shift to apply this to (ENTER for none): ")
-                    if ts == "":
+                    _index = 1
+                    for _shift in rph_schedule:
+                        if _shift.date == _date:
+                            print(f"Index: {_index}    {vars(_shift)}")
+                    _template_shift = input("Please enter which shift to apply this to (ENTER for none): ")
+                    if _template_shift == "":
                         break
                     else:
                         # make the change to the RPh schedule
-                        s_index = 1
-                        for s in rph_schedule:
-                            if (s.date == _date) and (s_index == index):
-                                s.special_reqs.add("CHEMO")
-                else _caregiver_local_type == "2":
+                        _shift_index = 1
+                        for _shift in rph_schedule:
+                            if (_shift.date == _date) and (_shift_index == _index):
+                                _shift.special_reqs.add("CHEMO")
+                elif _caregiver_local_type == "2":
                     # display Tech shift options
-                    index = 1
-                    for s in tech_schedule:
-                        if s.date == _date:
-                            print(f"Index: {index}    {vars(s)}")
-                    ts = input("Please enter which shift to apply this to (ENTER for none): ")
-                    if ts == "":
+                    _index = 1
+                    for _shift in tech_schedule:
+                        if _shift.date == _date:
+                            print(f"Index: {_index}    {vars(_shift)}")
+                    _template_shift = input("Please enter which shift to apply this to (ENTER for none): ")
+                    if _template_shift == "":
                         break
                     else:
                         # make the change to the Tech schedule
-                        s_index = 1
-                        for s in tech_schedule:
-                            if (s.date == _date) and (s_index == index):
-                                s.special_reqs.add("CHEMO")
+                        _shift_index = 1
+                        for _shift in tech_schedule:
+                            if (_shift.date == _date) and (_shift_index == _index):
+                                _shift.special_reqs.add("CHEMO")
             # update the list of constraints
             self.constraints.append(Constraint(date=_date, criteria=_criteria, caregiver_id_num=_caregiver_id_num))
 

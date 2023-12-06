@@ -1,7 +1,7 @@
 from enum import Enum
 
 
-class ConsCritType(Enum):
+class CriteriaType(Enum):
     """ Class representing the type of constraint criteria """
 
     NONE = 0

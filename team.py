@@ -5,6 +5,9 @@ class Team:
         self.team = []
         self.unassigned_members = []
 
+    def build_team(self):
+        pass
+
     def add_team_member(self, caregiver):
         self.team.append(caregiver)
 
