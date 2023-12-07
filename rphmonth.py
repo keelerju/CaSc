@@ -159,4 +159,18 @@ class RphMonth:
             print(vars(_shift))
 
     def fill_old(self, team):
-        pass
+        # create a list of lists of the shifts of the days from the month previous
+        old_week = [[] for _ in range(6)]
+        for _shift in rph_schedule:
+            if _shift.month < self.month:
+                old_week[_shift.day].append(_shift)
+            else:
+                return
+        
+        # loop through the list, display shifts one day at a time, and assign caregivers
+        for _day_of_week in old_week[1].day
+            print(f"{index}.  {vars(_shift)}")
+        
+        # add the caregivers back to the rph_schedule
+        for _pair in old_week:
+            pass
