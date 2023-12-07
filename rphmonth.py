@@ -174,7 +174,12 @@ class RphMonth:
             for index, _shift in enumerate(index, _day_of_week):
                 print(f"{index}.  {vars(_shift)}")
             for index, _shift in enumerate(index, _day_of_week):
-                _shift.caregiver_id_num = input(f"Enter the Caregiver ID number assigned to shift {index}: ")
+                assess = True
+                while assess:
+                    _shift.caregiver_id_num = input(f"Enter the Caregiver ID number assigned to shift {index}: ")
+                    for _caregiver in team:
+                        if _caregiver_id_num not in team:
+                            print("Unknown caregiver.  Try again.")
         
         # add the caregivers back to the rph_schedule
         for index, _day_of_week in enumerate(old_week):
