@@ -158,5 +158,5 @@ class RphMonth:
         for _shift in self.rph_schedule:
             print(vars(_shift))
 
-    def fill_old(self):
+    def fill_old(self, team):
         pass
