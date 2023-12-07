@@ -163,7 +163,7 @@ class RphMonth:
         old_week = [[] for _ in range(6)]
         for _shift in rph_schedule:
             if _shift.month < self.month:
-                old_week[_shift.day].append(_shift)
+                old_week[_shift.day - 1].append(_shift)
             else:
                 return
         
