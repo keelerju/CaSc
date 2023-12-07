@@ -46,7 +46,7 @@ def main():
 
     tech_month = TechMonth(year, month)
     tech_month.fill_blank(schedule.template.tech_template, holidays)
-    tech_month.fill_old()
+    tech_month.fill_old(team)
     # tech_month.print_schedule()
 
     constraints = Constraints()
