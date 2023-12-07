@@ -169,6 +169,8 @@ class RphMonth:
         
         # loop through the list, display shifts one day at a time, and assign caregivers
         for _day_of_week in old_week:
+            if not _day_of_week:
+                break
             for index, _shift in enumerate(index, _day_of_week):
                 print(f"{index}.  {vars(_shift)}")
             for index, _shift in enumerate(index, _day_of_week):
