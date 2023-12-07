@@ -168,8 +168,11 @@ class RphMonth:
                 return
         
         # loop through the list, display shifts one day at a time, and assign caregivers
-        for _day_of_week in old_week[1].day
-            print(f"{index}.  {vars(_shift)}")
+        for _day_of_week in old_week:
+            for index, _shift in enumerate(index, _day_of_week):
+                print(f"{index}.  {vars(_shift)}")
+            for index, _shift in enumerate(index, _day_of_week):
+                _shift.caregiver_id_num = input(f"Enter the Caregiver ID number assigned to shift {index}: ")
         
         # add the caregivers back to the rph_schedule
         for _pair in old_week:
