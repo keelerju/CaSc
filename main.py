@@ -41,7 +41,7 @@ def main():
 
     rph_month = RphMonth(year, month)
     rph_month.fill_blank(schedule.template.rph_template, holidays)
-    rph_month.fill_old()
+    rph_month.fill_old(team)
     # rph_month.print_schedule()
 
     tech_month = TechMonth(year, month)
