@@ -177,5 +177,8 @@ class RphMonth:
                 _shift.caregiver_id_num = input(f"Enter the Caregiver ID number assigned to shift {index}: ")
         
         # add the caregivers back to the rph_schedule
-        for _pair in old_week:
-            pass
+        for index, _day_of_week in enumerate(old_week):
+            if not _day_of_week:
+                break
+            for _shift in _day of week:
+                self.rph_schedule[index] = _shift
