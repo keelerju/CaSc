@@ -174,12 +174,19 @@ class TechMonth:
             for index, _shift in enumerate(index, _day_of_week):
                 print(f"{index}.  {vars(_shift)}")
             for index, _shift in enumerate(index, _day_of_week):
-                assess = True
-                while assess:
-                    _shift.caregiver_id_num = input(f"Enter the Caregiver ID number assigned to shift {index}: ")
+                valid == True
+                while valid:
+                    number = input(f"Enter the Caregiver ID number assigned to shift {index}: ")
                     for _caregiver in team:
-                        if _caregiver_id_num not in team:
-                            print("Unknown caregiver.  Try again.")
+                        if number == _caregiver.caregiver_id_num:
+                            _shift.caregivee_id_num = number
+                            break
+                        else:
+                            valid ==False
+                    if valid == True:
+                        break
+                    else:
+                        print("Unknown caregiver.  Try again.")
         
         # add the caregivers back to the tech_schedule
         for index, _day_of_week in enumerate(old_week):
