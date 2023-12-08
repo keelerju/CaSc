@@ -2,7 +2,8 @@ from caregivertype import CaregiverType
 
 
 class Caregiver:
-    """A class to represent a caregiver """
+    """A class to represent a caregiver
+    Attributes, must-dates, and can't-dates are sets """
 
     def __init__(self, *, name='Caregiver', caregiver_id_num=0, caregiver_type=CaregiverType(5),
                  min_hours=80, attributes=None, must_dates=None, cant_dates=None):
