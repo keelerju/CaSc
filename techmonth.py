@@ -159,4 +159,31 @@ class TechMonth:
             print(vars(_shift))
 
     def fill_old(self, team):
-        pass
+        # create a list of lists of the shifts of the days from the month previous
+        old_week = [[] for _ in range(6)]
+        for _shift in tech_schedule:
+            if _shift.month < self.month:
+                old_week[_shift.day - 1].append(_shift)
+            else:
+                return
+        
+        # loop through the list, display shifts one day at a time, and assign caregivers
+        for _day_of_week in old_week:
+            if not _day_of_week:
+                break
+            for index, _shift in enumerate(index, _day_of_week):
+                print(f"{index}.  {vars(_shift)}")
+            for index, _shift in enumerate(index, _day_of_week):
+                assess = True
+                while assess:
+                    _shift.caregiver_id_num = input(f"Enter the Caregiver ID number assigned to shift {index}: ")
+                    for _caregiver in team:
+                        if _caregiver_id_num not in team:
+                            print("Unknown caregiver.  Try again.")
+        
+        # add the caregivers back to the tech_schedule
+        for index, _day_of_week in enumerate(old_week):
+            if not _day_of_week:
+                break
+            for _shift in _day of week:
+                self.tech_schedule[index] = _shift
