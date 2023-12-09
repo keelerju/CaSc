@@ -1,3 +1,4 @@
+from datetime import date
 from random import choice
 
 
@@ -9,8 +10,10 @@ class Assignment:
         pass
 
     def initial_assignment(self, rph_schedule, tech_schedule, team, evaluation):
-        for _caregiver_id_num in team.must_dates:
-            pass
+        for _caregiver in team.team:
+            if _caregiver.must_dates:
+                for _date in _caregiver.must_dates:
+                    pass
         random_shift = random.choice(rph_schedule)
 
     def refinement(self, rph_schedule, tech_schedule, team, evaluation):
