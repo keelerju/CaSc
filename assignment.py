@@ -1,4 +1,4 @@
-class Assignment():
+class Assignment:
     """ Class accepting schedules, team, and evaluation objects, which employs various strategy methods for
     initial assignment and refinement methods """
 
