@@ -162,7 +162,7 @@ class TechMonth:
         # create a list of lists of the shifts of the days from the month previous
         old_week = [[] for _ in range(6)]
         for _shift in tech_schedule:
-            if _shift.month < self.month:
+            if ((_shift.month == 12) and (self.month == 1)) or if ((_shift.month < self.month) and (_shift.month != 1)):
                 old_week[_shift.day - 1].append(_shift)
             else:
                 return
