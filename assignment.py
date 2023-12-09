@@ -11,10 +11,11 @@ class Assignment:
         pass
 
     @classmethod
-    def attribute_match(cls, _caregiver, _shift):
+    def attribute_no_mismatch(cls, _caregiver, _shift):
         for attribute in _caregiver.attributes:
-            if attribute in _shift.special_reqs:
-                return True
+            for _special_req in _shift.special_reqs:
+                if _special_req == attribute:
+                    return True
         return False
 
     @classmethod
@@ -27,7 +28,7 @@ class Assignment:
                     _shifts = []
                     for index, _shift in enumerate(rph_schedule):
                         if ((_date == date(_shift.year, _shift.month, _shift.day_of_month))
-                                and not _shift.caregiver_id_num and cls.attribute_match(_caregiver, _shift)):
+                                and not _shift.caregiver_id_num and cls.attribute_no_mismatch(_caregiver, _shift)):
                             _shifts.append((index, _shift))
                     if not _shifts:
                         print(f"Cannot assign caregiver with ID# {_caregiver.caregiver_id_num} to "
@@ -43,7 +44,7 @@ class Assignment:
                     _shifts = []
                     for index, _shift in enumerate(tech_schedule):
                         if ((_date == date(_shift.year, _shift.month, _shift.day_of_month))
-                                and not _shift.caregiver_id_num and cls.attribute_match(_caregiver, _shift)):
+                                and not _shift.caregiver_id_num and cls.attribute_no_mismatch(_caregiver, _shift)):
                             _shifts.append((index, _shift))
                     if not _shifts:
                         print(f"Cannot assign caregiver with ID# {_caregiver.caregiver_id_num} to "
