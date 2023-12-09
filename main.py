@@ -12,6 +12,8 @@ from techmonth import TechMonth
 from team import Team
 from datetime import date
 from constraints import Constraints
+from assignment import Assignment
+from evaluation import Evaluation
 
 
 def main():
@@ -56,7 +58,8 @@ def main():
         pass
     else:
         constraints.add_constraints(team, rph_month.rph_schedule, tech_month.tech_schedule)
-
+    evaluation = Evaluation()
+    assignment = Assignment(rph_month, tech_month, team, evaluation)
 
 if __name__ == '__main__':
     main()
