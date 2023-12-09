@@ -8,6 +8,8 @@ class Template:
     no specific year/month/date information or caregiver assignments"""
 
     def __init__(self):
+        """ Instantiates templates as lists that will hold shift objects,
+        then builds available templates with all possible shifts """
         self.rph_template = []
         self.tech_template = []
         self.build_templates()
