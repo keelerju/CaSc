@@ -16,7 +16,8 @@ class Team:
             caregiver_type = input("Please enter caregiver type: ")
             min_hours = input("Please enter hours per pay period: ")
             self.add_team_member(Caregiver(name=name, caregiver_id_num=caregiver_id_num,
-                                           caregiver_type=CaregiverType(caregiver_type), min_hours=min_hours))
+                                           caregiver_type=CaregiverType(caregiver_type),
+                                           min_hours=min_hours, remaining_hours=min_hours))
             print(f"*** Caregiver # {index + 1} of {team_size} added to team ***\n")
 
     def add_team_member(self, caregiver):
