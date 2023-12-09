@@ -161,7 +161,7 @@ class RphMonth:
     def fill_old(self, team):
         # create a list of lists of the shifts of the days from the month previous
         old_week = [[] for _ in range(6)]
-        for _shift in rph_schedule:
+        for _shift in self.rph_schedule:
             if _shift.month < self.month:
                 old_week[_shift.day - 1].append(_shift)
             else:
@@ -171,19 +171,19 @@ class RphMonth:
         for _day_of_week in old_week:
             if not _day_of_week:
                 break
-            for index, _shift in enumerate(index, _day_of_week):
+            for index, _shift in enumerate(_day_of_week):
                 print(f"{index}.  {vars(_shift)}")
-            for index, _shift in enumerate(index, _day_of_week):
-                valid == True
+            for index, _shift in enumerate(_day_of_week):
+                valid = True
                 while valid:
                     number = input(f"Enter the Caregiver ID number assigned to shift {index}: ")
                     for _caregiver in team:
                         if number == _caregiver.caregiver_id_num:
-                            _shift.caregivee_id_num = number
+                            _shift.caregiver_id_num = number
                             break
                         else:
-                            valid ==False
-                    if valid == True:
+                            valid = False
+                    if valid:
                         break
                     else:
                         print("Unknown caregiver.  Try again.")
@@ -192,5 +192,5 @@ class RphMonth:
         for index, _day_of_week in enumerate(old_week):
             if not _day_of_week:
                 break
-            for _shift in _day of week:
+            for _shift in _day_of_week:
                 self.rph_schedule[index] = _shift

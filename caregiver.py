@@ -5,7 +5,7 @@ class Caregiver:
     """A class to represent a caregiver
     Attributes, must-dates, and can't-dates are sets """
 
-    def __init__(self, *, name='Caregiver', caregiver_id_num=0, caregiver_type=CaregiverType(5),
+    def __init__(self, *, name='Caregiver', caregiver_id_num=0, caregiver_type=CaregiverType.NONE,
                  min_hours=80, remaining_hours=80, attributes=None, must_dates=None, cant_dates=None):
         self.name = name
         self.caregiver_id_num = caregiver_id_num
