@@ -13,7 +13,8 @@ class Team:
         for index, _caregiver in enumerate(range(team_size)):
             name = input("Please enter caregiver name: ")
             caregiver_id_num = input("Please enter caregiver ID number: ")
-            caregiver_type = input("Please enter caregiver type: ")
+            print("1: Manager, 2: RPh, 3: Technician")
+            caregiver_type = int(input("Please enter caregiver type: "))
             min_hours = input("Please enter hours per pay period: ")
             self.add_team_member(Caregiver(name=name, caregiver_id_num=caregiver_id_num,
                                            caregiver_type=CaregiverType(caregiver_type),
