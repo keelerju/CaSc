@@ -12,6 +12,7 @@ class Assignment:
 
     @classmethod
     def attribute_no_mismatch(cls, _caregiver, _shift):
+        """ Return true if a shift requirement matches a caregiver attribute """
         for attribute in _caregiver.attributes:
             for _special_req in _shift.special_reqs:
                 if _special_req == attribute:
