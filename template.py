@@ -4,7 +4,8 @@ from location import Location
 
 
 class Template:
-    """ A class representing a week-long schedule template containing no specific year/month/date information """
+    """ A class representing a week-long schedule template containing 
+    no specific year/month/date information or caregiver assignments"""
 
     def __init__(self):
         self.rph_template = []
