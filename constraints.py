@@ -58,7 +58,7 @@ class Constraints:
                         _shift_index = 1
                         for _shift in rph_schedule:
                             if (_shift.date == _date) and (_shift_index == _index):
-                                _shift.special_reqs.add("CHEMO")
+                                _shift.skills.add("CHEMO")
                 elif _caregiver_local_type == "2":
                     # display Tech shift options
                     index = 1
@@ -73,7 +73,7 @@ class Constraints:
                         shift_index = 1
                         for _shift in tech_schedule:
                             if (_shift.date == _date) and (_shift_index == index):
-                                _shift.special_reqs.add("CHEMO")
+                                _shift.skills.add("CHEMO")
             # update the list of constraints
             self.constraints.append(Constraint(date=_date, criteria=_criteria, caregiver_id_num=_caregiver_id_num))
 

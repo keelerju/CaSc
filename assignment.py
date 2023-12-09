@@ -11,11 +11,11 @@ class Assignment:
         pass
 
     @classmethod
-    def attribute_no_mismatch(cls, _caregiver, _shift):
-        """ Return true if a shift requirement matches a caregiver attribute """
-        for attribute in _caregiver.attributes:
-            for _special_req in _shift.special_reqs:
-                if _special_req == attribute:
+    def skills_no_mismatch(cls, _caregiver, _shift):
+        """ Return true if a shift skill requirement matches a caregiver skill """
+        for _caregiver_skill in _caregiver.skills:
+            for _shift_skill in _shift.skills:
+                if _shift_skill == _caregiver_skill:
                     return True
         return False
 
@@ -29,7 +29,7 @@ class Assignment:
                     _shifts = []
                     for index, _shift in enumerate(rph_schedule):
                         if ((_date == date(_shift.year, _shift.month, _shift.day_of_month))
-                                and not _shift.caregiver_id_num and cls.attribute_no_mismatch(_caregiver, _shift)):
+                                and not _shift.caregiver_id_num and cls.skills_no_mismatch(_caregiver, _shift)):
                             _shifts.append((index, _shift))
                     if not _shifts:
                         print(f"Cannot assign caregiver with ID# {_caregiver.caregiver_id_num} to "
@@ -45,7 +45,7 @@ class Assignment:
                     _shifts = []
                     for index, _shift in enumerate(tech_schedule):
                         if ((_date == date(_shift.year, _shift.month, _shift.day_of_month))
-                                and not _shift.caregiver_id_num and cls.attribute_no_mismatch(_caregiver, _shift)):
+                                and not _shift.caregiver_id_num and cls.skills_no_mismatch(_caregiver, _shift)):
                             _shifts.append((index, _shift))
                     if not _shifts:
                         print(f"Cannot assign caregiver with ID# {_caregiver.caregiver_id_num} to "

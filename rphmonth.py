@@ -145,7 +145,7 @@ class RphMonth:
                     weekday_of_holiday = self.convert(calendar.weekday(holiday.year, holiday.month, holiday.day))
                     _rph_schedule_local.append(Shift(
                         day_of_week=weekday_of_holiday, day_of_month=holiday.day, location=Location.INPATIENT,
-                        start_time=7.5, end_time=12, caregiver_type=CaregiverType.RPH, special_reqs=()))
+                        start_time=7.5, end_time=12, caregiver_type=CaregiverType.RPH, skills=()))
                     first_instance = False
                 elif (_shift.day_of_month == holiday.day) and (_shift.month == holiday.month) and not first_instance:
                     pass
@@ -162,7 +162,7 @@ class RphMonth:
         # create a list of lists of the shifts of the days from the month previous
         old_week = [[] for _ in range(6)]
         for _shift in self.rph_schedule:
-            if ((_shift.month == 12) and (self.month == 1)) or if ((_shift.month < self.month) and (_shift.month != 1)):
+            if ((_shift.month == 12) and (self.month == 1)) or ((_shift.month < self.month) and (_shift.month != 1)):
                 old_week[_shift.day - 1].append(_shift)
             else:
                 return

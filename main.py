@@ -59,7 +59,8 @@ def main():
     else:
         constraints.add_constraints(team, rph_month.rph_schedule, tech_month.tech_schedule)
     evaluation = Evaluation()
-    assignment = Assignment(rph_month, tech_month, team, evaluation)
+    assignment = Assignment()
+
 
 if __name__ == '__main__':
     main()
