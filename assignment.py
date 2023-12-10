@@ -89,7 +89,7 @@ class Assignment:
                         remaining_hours += 5
                     elif pay_period_week == 2:
                         remaining_hours -= 5
-        pay_period_week = 2 if pay_period_week == 1 else 1
+            pay_period_week = 2 if pay_period_week == 1 else 1
 
         # Do the same for the Techs as above.
 
