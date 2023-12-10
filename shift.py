@@ -23,4 +23,7 @@ class Shift:
         else:
             self.skills = set(skills)
         self.caregiver_id_num = caregiver_id_num
+        
+        # If extra is True, it represents that this is an extra shift to either accomodate 
+        # overabundant caregivers or to provide needed coverage for high volume of work. 
         self.extra = extra
