@@ -93,8 +93,10 @@ class Assignment:
                 if _shift.week_of_month = _week:
                     _shift_count += 1
             assignee = choice(assignable_team)
-            shift_assignment = choice((((_week - 1) * shift_count) + 1):((_week * shiftcount) + 1))
-            rph_schedule[shift_assigment].caregiver_id_num = assignee.caregiver_id_num
+            shift_assignment = choice(((_week - 1) * shift_count):((_week * shiftcount) + 1))
+            if not rph_schedule[shift_assignment].caregiver_id_num and (assignee.remaining_hours != 0) and skills_no_mismatch(assignee, rph_schedule[shift_assignment]):
+                rph_schedule[shift_assigment].caregiver_id_num = assignee.caregiver_id_num
+                
             pay_period_week = 2 if pay_period_week == 1 else 1
 
         # Do the same for the Techs as above.
