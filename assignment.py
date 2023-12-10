@@ -80,8 +80,6 @@ class Assignment:
                 pay_period_week = 2
         for week in range(rph_schedule[-1].week_of_month):
             assignable_team = []
-            for _caregiver in team:
-                local_team.append(AssignableCaregiver(_caregiver, 0))
             for _assignable_caregiver in assignable_team:
                 remaining_hours = _assignable_caregiver.min_hours / 2
                 if remaining_hours % 10 != 0:
@@ -89,6 +87,8 @@ class Assignment:
                         remaining_hours += 5
                     elif pay_period_week == 2:
                         remaining_hours -= 5
+            for _caregiver in team:
+                assignable_team.append(AssignableCaregiver(_caregiver, remaining_hours))
             pay_period_week = 2 if pay_period_week == 1 else 1
 
         # Do the same for the Techs as above.
