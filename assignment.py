@@ -122,8 +122,8 @@ class Assignment:
 
             # As long as there are remaining hours amongst the assignable team, randomly try to assign a caregiver
             # to the RPh schedule.  (possible infinite loop - needs debugging to find all failure cases)
-            # Foresee that these failure cases include:
-            #     1: no remaining caregivers who have the skills for remaining shift(s)
+            # Foresee that these failure cases include at least:
+            #     1: no remaining caregivers who have the skills for the remaining shift(s).
             #     2: too many caregivers for the available shifts, so need to be able to create extra shifts in the
             #        schedule that are strategically placed based on heaviest need.
             while total_remaining_hours:
