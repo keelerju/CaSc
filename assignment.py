@@ -23,7 +23,15 @@ class Assignment:
     @classmethod
     def initial_assignment(cls, rph_schedule, tech_schedule, team):
         """ Initial assignment of caregivers into the schedule."""
+        
+        rph_schedule = cls.assign_must_dates_rph(rph_schedule, tech_schedule)
+        tech_schedule = cls.assign_must_dates_tech(tech_schedule, tech_schedule)
+        
+        rph_schedule = cls.create_initial_rph(rph_schedule, team)
+        tech_schedule = cls.create_initial_tech(tech_schedule, team)
 
+    @classmethod
+    def assign_must_dates_rph(rph_schedule, team):
         # Go through each caregiver, and if RPh, find their must-dates, if any, and
         # randomly assign them a shift on those dates. If no available shifts, provide a warning.
         for _caregiver in team.team:
@@ -41,7 +49,10 @@ class Assignment:
                     else:
                         chosen_shift = choice(_shifts)
                         rph_schedule[_shifts[0]].caregiver_id_num = chosen_shift[1].caregiver_id_num
-
+        return rph_schedule
+    
+    @classmethod
+    def assign_must_dates_tech(tech_schedule, team):
         # Go through each caregiver, and if Tech, find their must-dates, if any, and
         # randomly assign them a shift on those dates. If no available shifts, provide a warning.
         for _caregiver in team.team:
@@ -59,9 +70,8 @@ class Assignment:
                     else:
                         chosen_shift = choice(_shifts)
                         tech_schedule[_shifts[0]].caregiver_id_num = chosen_shift[1].caregiver_id_num
-        rph_schedule = cls.create_initial_rph(rph_schedule, team)
-            tech_schedule = cls.create_initial_tech(tech_schedule, team)
-
+        return tech_schedule
+    
     @classmethod
     def create_initial_rph(rph_schedule, team):
         # Create assignable_team, a list of objects each with 2 attributes, the caregiver and the remaining hours
@@ -102,6 +112,7 @@ class Assignment:
                 rph_schedule[shift_assigment].caregiver_id_num = assignee.caregiver_id_num
                 
             pay_period_week = 2 if pay_period_week == 1 else 1
+        return rph_schedule
 
     @classmethod
     def create_initial_tech(tech_schedule, team):
