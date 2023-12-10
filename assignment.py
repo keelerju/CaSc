@@ -82,11 +82,11 @@ class Assignment:
             assignable_team = []
             for _caregiver in team:
                 remaining_hours = _caregiver.min_hours / 2
-                if remaining_hours % 10 != 0:
+                if remaining_hours % RPH_SHIFT_LENGTH != 0:
                     if pay_period_week == 1:
-                        remaining_hours += 5
+                        remaining_hours += (RPH_SHIFT__LENGTH / 2)
                     elif pay_period_week == 2:
-                        remaining_hours -= 5
+                        remaining_hours -= (RPH_SHIFT__LENGTH / 2)
                 assignable_team.append(AssignableCaregiver(_caregiver, remaining_hours))
             pay_period_week = 2 if pay_period_week == 1 else 1
 
