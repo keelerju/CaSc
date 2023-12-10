@@ -13,7 +13,7 @@ class Assignment:
 
     @classmethod
     def skills_no_mismatch(cls, _caregiver, _shift):
-        """ Return true if a shift skill requirement matches a caregiver skill """
+        """ Return true if there is no mismatch between a shift skill requirement and a caregiver skill """
         if not _shift.skills:
             return True
         elif not _caregiver.skills:
