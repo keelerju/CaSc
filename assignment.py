@@ -14,6 +14,10 @@ class Assignment:
     @classmethod
     def skills_no_mismatch(cls, _caregiver, _shift):
         """ Return true if a shift skill requirement matches a caregiver skill """
+        if not _shift.skills:
+            return True
+        elif not _caregiver.skills:
+            return False
         for _caregiver_skill in _caregiver.skills:
             for _shift_skill in _shift.skills:
                 if _shift_skill == _caregiver_skill:
