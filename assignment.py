@@ -69,7 +69,7 @@ class Assignment:
         # hours are rounded down to the nearest shift size.
         # Loop through the team and assign the correct number of remaining hours to each tuple. 
         # Deduct the hours already assigned in that week of the RPh schedule from the remaining hours
-        # Randomly select an RPh caregiver from then randomly select a shift, and if RPh has remaining hours,
+        # Randomly select an RPh caregiver, then randomly select a shift, and if RPh has remaining hours,
         # and if there is no mismatch of skills, then assign the RPh to the shift.
 
         reference_date_start_of_pay_period = datetime(2023, 12, 3)
@@ -78,7 +78,7 @@ class Assignment:
         pay_period_week = 1
         if week_difference % 14 != 0:
                 pay_period_week = 2
-        for week in range(rph_schedule[-1].week_of_month):
+        for _week in range(1, rph_schedule[-1].week_of_month + 1):
             assignable_team = []
             for _caregiver in team:
                 remaining_hours = _caregiver.min_hours / 2
@@ -88,6 +88,13 @@ class Assignment:
                     elif pay_period_week == 2:
                         remaining_hours -= (RPH_SHIFT__LENGTH / 2)
                 assignable_team.append(AssignableCaregiver(_caregiver, remaining_hours))
+            shift_count = 0
+            for _shift in rph_schedule:
+                if _shift.week_of_month = _week:
+                    _shift_count += 1
+            assignee = choice(assignable_team)
+            shift_assignment = choice((((_week - 1) * shift_count) + 1):((_week * shiftcount) + 1))
+            rph_schedule[shift_assigment].caregiver_id_num = assignee.caregiver_id_num
             pay_period_week = 2 if pay_period_week == 1 else 1
 
         # Do the same for the Techs as above.
