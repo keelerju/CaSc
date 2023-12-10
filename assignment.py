@@ -59,7 +59,11 @@ class Assignment:
                     else:
                         chosen_shift = choice(_shifts)
                         tech_schedule[_shifts[0]].caregiver_id_num = chosen_shift[1].caregiver_id_num
+        rph_schedule = cls.create_initial_rph(rph_schedule, team)
+            tech_schedule = cls.create_initial_tech(tech_schedule, team)
 
+    @classmethod
+    def create_initial_rph(rph_schedule, team):
         # Create assignable_team, a list of objects each with 2 attributes, the caregiver and the remaining hours
         # yet to be assigned for them for that week. 
         # If the RPh works a number of hours per pay period that when divided in
@@ -94,12 +98,14 @@ class Assignment:
                     _shift_count += 1
             assignee = choice(assignable_team)
             shift_assignment = choice(((_week - 1) * shift_count):((_week * shiftcount) + 1))
-            if not rph_schedule[shift_assignment].caregiver_id_num and (assignee.remaining_hours != 0) and skills_no_mismatch(assignee, rph_schedule[shift_assignment]):
+            if not rph_schedule[shift_assignment].caregiver_id_num and (assignee.remaining_hours != 0) and cls.skills_no_mismatch(assignee, rph_schedule[shift_assignment]):
                 rph_schedule[shift_assigment].caregiver_id_num = assignee.caregiver_id_num
                 
             pay_period_week = 2 if pay_period_week == 1 else 1
 
-        # Do the same for the Techs as above.
+    @classmethod
+    def create_initial_tech(tech_schedule, team):
+        pass
 
     def refinement(self, rph_schedule, tech_schedule, team, evaluation):
         pass
