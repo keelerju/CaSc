@@ -60,6 +60,7 @@ class Assignment:
     def assign_must_dates_tech(cls, tech_schedule, team):
         """ Loop through each caregiver, and if Tech, find their must-dates, if any, and
         randomly assign them a shift on those dates. If no available shifts, provide a warning. """
+        
         for _caregiver in team.team:
             if _caregiver.must_dates and (_caregiver.caregiver_type == CaregiverType.TECH):
                 for _date in _caregiver.must_dates:
