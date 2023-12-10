@@ -1,6 +1,7 @@
 from datetime import date, datetime
 from random import choice
 from caregivertype import CaregiverType
+from assignablecaregiver import AssignableCaregiver
 
 
 class Assignment:
@@ -20,7 +21,7 @@ class Assignment:
         return False
 
     @classmethod
-    def initial_assignment(cls, rph_schedule, rph_template, tech_schedule, tech_template, team):
+    def initial_assignment(cls, rph_schedule, tech_schedule, team):
         """ Initial assignment of caregivers into the schedule."""
 
         # Go through each caregiver, and if RPh, find their must-dates, if any, and
