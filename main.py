@@ -18,6 +18,9 @@ from evaluation import Evaluation
 
 def main():
 
+    RPH_SHIFT_LENGTH = 10
+    TECH_SHIFT_LENGTH = 8
+    
     team = Team()
     team_size = int(input("Enter the number of caregivers: "))
     team.build_team(team_size)
