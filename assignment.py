@@ -38,6 +38,7 @@ class Assignment:
     def assign_must_dates_rph(cls, rph_schedule, team):
         """ Loop through each caregiver, and if RPh, find their must-dates, if any, and
         randomly assign them a shift on those dates. If no available shifts, provide a warning. """
+
         for _caregiver in team.team:
             if _caregiver.must_dates and (_caregiver.caregiver_type == CaregiverType.RPH):
                 for _date in _caregiver.must_dates:
@@ -107,15 +108,32 @@ class Assignment:
                     elif pay_period_week == 2:
                         remaining_hours -= (rph_shift_length / 2)
                 assignable_team.append(AssignableCaregiver(_caregiver, remaining_hours))
+
+            # provide a count of shifts in this week
             shift_count = 0
             for _shift in rph_schedule:
                 if _shift.week_of_month == _week:
                     shift_count += 1
-            assignee = choice(assignable_team)
-            shift_assignment = choice(range(((_week - 1) * shift_count), ((_week * shift_count) + 1)))
-            if (not rph_schedule[shift_assignment].caregiver_id_num and (assignee.remaining_hours != 0)
-                    and cls.skills_no_mismatch(assignee.caregiver, rph_schedule[shift_assignment])):
-                rph_schedule[shift_assignment].caregiver_id_num = assignee.caregiver.caregiver_id_num
+
+            # provide a count of remaining hours for the entire assignable team in this week
+            total_remaining_hours = 0
+            for assignee in assignable_team:
+                total_remaining_hours += assignee.caregiver.remaining_hours
+
+            # As long as there are remaining hours amongst the assignable team, randomly try to assign a caregiver
+            # to the RPh schedule.  (possible infinite loop - needs debugging to find all failure cases)
+            # Foresee that these failure cases include:
+            #     1: no remaining caregivers who have the skills for remaining shift(s)
+            #     2: too many caregivers for the available shifts, so need to be able to create extra shifts in the
+            #        schedule that are strategically placed based on heaviest need.
+            while total_remaining_hours:
+                assignee = choice(assignable_team)
+                shift_assignment = choice(range(((_week - 1) * shift_count), ((_week * shift_count) + 1)))
+                if (not rph_schedule[shift_assignment].caregiver_id_num and (assignee.remaining_hours != 0)
+                        and cls.skills_no_mismatch(assignee.caregiver, rph_schedule[shift_assignment])):
+                    rph_schedule[shift_assignment].caregiver_id_num = assignee.caregiver.caregiver_id_num
+                    assignee.remaining_hours -= rph_shift_length
+                    total_remaining_hours -= rph_shift_length
                 
             pay_period_week = 2 if pay_period_week == 1 else 1
         return rph_schedule
