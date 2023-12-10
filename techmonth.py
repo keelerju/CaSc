@@ -84,6 +84,7 @@ class TechMonth:
         # loop through shifts of the last week of the previous month and append shifts to tech_schedule
         weekday = 1
         day_of_month = 1
+        week_of_month = 1
         ignore_days = False
         if weekday_of_first_day_of_current_month != 1:
             day_of_month = last_sunday_day_of_month_prev
@@ -95,6 +96,7 @@ class TechMonth:
                     if weekday > weekday_of_last_day_of_month_prev:
                         break
                 _shift.day_of_month = day_of_month
+                _shift.week_of_month = week_of_month
                 self.tech_schedule.append(_shift)
 
         # loop through shifts of the first week of the current month and append shifts to tech_schedule
@@ -107,12 +109,14 @@ class TechMonth:
                 day_of_month = day_of_month + 1
                 weekday = _shift.day_of_week
             _shift.day_of_month = day_of_month
+            _shift.week_of_month = week_of_month
             self.tech_schedule.append(_shift)
 
         # loop through shifts of subsequent weeks of the current month and append shifts to tech_schedule
         weekday = 1
         day_of_month = day_of_month + 1
         for _week in range(int((num_of_days_in_current_month - day_of_month) / 7 + 1)):
+            week_of_month += 1
             for _shift in copy.deepcopy(tech_template_current):
                 if _shift.day_of_week != weekday:
                     day_of_month = day_of_month + 1
@@ -120,6 +124,7 @@ class TechMonth:
                 if day_of_month > num_of_days_in_current_month:
                     break
                 _shift.day_of_month = day_of_month
+                _shift.week_of_month = week_of_month
                 self.tech_schedule.append(_shift)
 
         # loop through shifts of the first partial week of the next month and append shifts to tech_schedule
@@ -132,6 +137,7 @@ class TechMonth:
                     day_of_month = day_of_month + 1
                     weekday = _shift.day_of_week
                 _shift.day_of_month = day_of_month
+                _shift.week_of_month = week_of_month
                 self.tech_schedule.append(_shift)
             if holidays:
                 self.add_holidays(holidays)
