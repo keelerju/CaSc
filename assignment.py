@@ -32,8 +32,8 @@ class Assignment:
 
     @classmethod
     def assign_must_dates_rph(rph_schedule, team):
-        # Go through each caregiver, and if RPh, find their must-dates, if any, and
-        # randomly assign them a shift on those dates. If no available shifts, provide a warning.
+        """ Loop through each caregiver, and if RPh, find their must-dates, if any, and
+        randomly assign them a shift on those dates. If no available shifts, provide a warning. """
         for _caregiver in team.team:
             if _caregiver.must_dates and (_caregiver.caregiver_type == CaregiverType.RPH):
                 for _date in _caregiver.must_dates:
@@ -53,8 +53,8 @@ class Assignment:
     
     @classmethod
     def assign_must_dates_tech(tech_schedule, team):
-        # Go through each caregiver, and if Tech, find their must-dates, if any, and
-        # randomly assign them a shift on those dates. If no available shifts, provide a warning.
+        """ Loop through each caregiver, and if Tech, find their must-dates, if any, and
+        randomly assign them a shift on those dates. If no available shifts, provide a warning. """
         for _caregiver in team.team:
             if _caregiver.must_dates and (_caregiver.caregiver_type == CaregiverType.TECH):
                 for _date in _caregiver.must_dates:
@@ -74,17 +74,17 @@ class Assignment:
     
     @classmethod
     def create_initial_rph(rph_schedule, team):
-        # Create assignable_team, a list of objects each with 2 attributes, the caregiver and the remaining hours
-        # yet to be assigned for them for that week. 
-        # If the RPh works a number of hours per pay period that when divided in
-        # half is not divisible by the shift length (10 hours), then determine from a reference date in this method,
-        # which week of the pay period is being assigned, then apportion the shifts for that caregiver so that the
-        # first week, the remaining hours are rounded up to the nearest shift size, and the second week, the remaining
-        # hours are rounded down to the nearest shift size.
-        # Loop through the team and assign the correct number of remaining hours to each tuple. 
-        # Deduct the hours already assigned in that week of the RPh schedule from the remaining hours
-        # Randomly select an RPh caregiver, then randomly select a shift, and if RPh has remaining hours,
-        # and if there is no mismatch of skills, then assign the RPh to the shift.
+        """ Create assignable_team, a list of objects each with 2 attributes, the caregiver and the remaining hours
+        yet to be assigned for them for that week. 
+        If the RPh works a number of hours per pay period that when divided in
+        half is not divisible by the shift length (10 hours), then determine from a reference date in this method,
+        which week of the pay period is being assigned, then apportion the shifts for that caregiver so that the
+        first week, the remaining hours are rounded up to the nearest shift size, and the second week, the remaining
+        hours are rounded down to the nearest shift size.
+        Loop through the team and assign the correct number of remaining hours to each tuple. 
+        Deduct the hours already assigned in that week of the RPh schedule from the remaining hours
+        Randomly select an RPh caregiver, then randomly select a shift, and if RPh has remaining hours,
+        and if there is no mismatch of skills, then assign the RPh to the shift. """
 
         reference_date_start_of_pay_period = datetime(2023, 12, 3)
         start_day = datetime(rph_schedule[0].year, rph_schedule[0].month, rph_schedule[0].day)
