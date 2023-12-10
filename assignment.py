@@ -73,6 +73,8 @@ class Assignment:
         # and if there is no mismatch of skills, then assign the RPh to the shift.
 
         local_team = []
+        for _caregiver in team:
+            local_team.append(AssignableCaregiver(_caregiver, 0)
         reference_date_start_of_pay_period = datetime(2023, 12, 3)
         start_day = datetime(rph_schedule[0].year, rph_schedule[0].month, rph_schedule[0].day)
         week_difference = (start_day - reference_date_start_of_pay_period).days
