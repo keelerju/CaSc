@@ -72,22 +72,23 @@ class Assignment:
         # Randomly select an RPh caregiver from then randomly select a shift, and if RPh has remaining hours,
         # and if there is no mismatch of skills, then assign the RPh to the shift.
 
-        assignable_team = []
-        for _caregiver in team:
-            local_team.append(AssignableCaregiver(_caregiver, 0))
-        reference_date_start_of_pay_period = datetime(2023, 12, 3)
-        start_day = datetime(rph_schedule[0].year, rph_schedule[0].month, rph_schedule[0].day)
-        week_difference = (start_day - reference_date_start_of_pay_period).days
-        pay_period_week = 1
-        if week_difference % 14 != 0:
-            pay_period_week = 2
-        for _assignable_caregiver in assignable_team:
-            remaining_hours = _assignable_caregiver.min_hours / 2
-            if remaining_hours % 10 != 0:
-                if pay_period_week == 1:
-                    remaining_hours += 5
-                elif pay_period_week == 2:
-                    remaining_hours -= 5
+        for week in range(rph_schedule[-1].week_of_month):
+            assignable_team = []
+            for _caregiver in team:
+                local_team.append(AssignableCaregiver(_caregiver, 0))
+            reference_date_start_of_pay_period = datetime(2023, 12, 3)
+            start_day = datetime(rph_schedule[0].year, rph_schedule[0].month, rph_schedule[0].day)
+            week_difference = (start_day - reference_date_start_of_pay_period).days
+            pay_period_week = 1
+            if week_difference % 14 != 0:
+                pay_period_week = 2
+            for _assignable_caregiver in assignable_team:
+                remaining_hours = _assignable_caregiver.min_hours / 2
+                if remaining_hours % 10 != 0:
+                    if pay_period_week == 1:
+                        remaining_hours += 5
+                    elif pay_period_week == 2:
+                        remaining_hours -= 5
 
         # Do the same for the Techs as above.
 
