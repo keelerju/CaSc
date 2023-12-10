@@ -60,7 +60,7 @@ class Assignment:
                         chosen_shift = choice(_shifts)
                         tech_schedule[_shifts[0]].caregiver_id_num = chosen_shift[1].caregiver_id_num
 
-        # Create local_team, a list of objects each with 2 attributes, the caregiver and the remaining hours
+        # Create assignable_team, a list of objects each with 2 attributes, the caregiver and the remaining hours
         # yet to be assigned for them for that week. 
         # If the RPh works a number of hours per pay period that when divided in
         # half is not divisible by the shift length (10 hours), then determine from a reference date in this method,
@@ -72,7 +72,7 @@ class Assignment:
         # Randomly select an RPh caregiver from then randomly select a shift, and if RPh has remaining hours,
         # and if there is no mismatch of skills, then assign the RPh to the shift.
 
-        local_team = []
+        assignable_team = []
         for _caregiver in team:
             local_team.append(AssignableCaregiver(_caregiver, 0))
         reference_date_start_of_pay_period = datetime(2023, 12, 3)
@@ -81,6 +81,13 @@ class Assignment:
         pay_period_week = 1
         if week_difference % 14 != 0:
             pay_period_week = 2
+        for _assignable_caregiver in assignable_team:
+            remaining_hours = _assignable_caregiver.min_hours / 2
+            if remaining_hours % 10 != 0:
+                if pay_period_week == 1:
+                    remaining_hours += 5
+                else:
+                    remaining_hours -= 5
 
         # Do the same for the Techs as above.
 
