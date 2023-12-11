@@ -2,6 +2,7 @@ from datetime import date, datetime
 from random import choice
 from caregivertype import CaregiverType
 from assignablecaregiver import AssignableCaregiver
+from skilltype import SkillType
 
 
 class Assignment:
@@ -28,11 +29,15 @@ class Assignment:
     def initial_assignment(cls, rph_schedule, tech_schedule, team):
         """ Initial assignment of caregivers into the schedule."""
         
-        rph_schedule = cls.assign_must_dates_rph(rph_schedule, tech_schedule)
-        tech_schedule = cls.assign_must_dates_tech(tech_schedule, tech_schedule)
-        
+        rph_schedule = cls.assign_must_dates_rph(rph_schedule, team)
+        tech_schedule = cls.assign_must_dates_tech(tech_schedule, team)
+
+        rph_schedule = cls.assign_skilled_dates_rph(rph_schedule, team)
+
         rph_schedule = cls.create_initial_rph(rph_schedule, team)
         tech_schedule = cls.create_initial_tech(tech_schedule, team)
+
+        return rph_schedule, tech_schedule
 
     @classmethod
     def assign_must_dates_rph(cls, rph_schedule, team):
@@ -77,7 +82,28 @@ class Assignment:
                         chosen_shift = choice(_shifts)
                         tech_schedule[_shifts[0]].caregiver_id_num = chosen_shift[1].caregiver_id_num
         return tech_schedule
-    
+
+    @classmethod
+    def assign_skilled_dates_rph(cls, rph_schedule, team):
+        """ Create a list of the rph_schedule indexes for shifts with skill requirements.
+        Create a list of RPh caregivers with matching skill.
+        Loop through the list of skilled shifts, and randomly assign a RPh caregiver to each shift.  """
+
+        skilled_shift_indices = []
+        for index, _shift in enumerate(rph_schedule):
+            if SkillType.CHEMO in _shift.skills:
+                skilled_shift_indices.append(index)
+
+        skilled_rph = []
+        for _caregiver in team:
+            if (_caregiver.caregiver_type == CaregiverType.RPH) and (SkillType.CHEMO in _caregiver.skills):
+                skilled_rph.append(_caregiver)
+
+        for skilled_shift_index in skilled_shift_indices:
+            rph_schedule[skilled_shift_index].caregiver_id_num = choice(skilled_rph).caregiver_id_num
+
+        return rph_schedule
+
     @classmethod
     def create_initial_rph(cls, rph_schedule, team):
         """ Create assignable_team, a list of objects each with 2 attributes, the caregiver and the remaining hours
@@ -124,8 +150,7 @@ class Assignment:
             # As long as there are remaining hours amongst the assignable team, randomly try to assign a caregiver
             # to the RPh schedule.  (possible infinite loop - needs debugging to find all failure cases)
             # Foresee that these failure cases include at least:
-            #     1: no remaining caregivers who have the skills for the remaining shift(s).
-            #     2: too many caregivers for the available shifts, so need to be able to create extra shifts in the
+            #     1: too many caregivers for the available shifts, so need to be able to create extra shifts in the
             #        schedule that are strategically placed based on heaviest need.
             while total_remaining_hours:
                 assignee = choice(assignable_team)
