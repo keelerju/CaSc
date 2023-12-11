@@ -23,6 +23,9 @@ class WeekendRotation:
             self.set_ref_date()
         else:
             self.ref_date = ref_date
+        
+        self.weekend_rph_count = len(rph_weekends)
+        self.weekend_tech_count = len(tech_weekends)
 
     def set_rph_weekends(self):
         """ Print all RPh caregivers of the team, who are not per-diem and have set weekends,
