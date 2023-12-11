@@ -119,14 +119,14 @@ class Assignment:
 
     @classmethod
     def create_initial_rph(cls, rph_schedule, team):
-        """ Create assignable_team, a list of objects each with 2 attributes, the caregiver and the remaining hours
-        yet to be assigned for them for that week. 
+        """ Create assignable_team, a list of AssignableCaregiver objects, each having 2 attributes,
+        the caregiver and the remaining hours yet to be assigned for them for that week.
         If the RPh works a number of hours per pay period that when divided in
         half is not divisible by the shift length (10 hours), then determine from a reference date in this method,
         which week of the pay period is being assigned, then apportion the shifts for that caregiver so that the
         first week, the remaining hours are rounded up to the nearest shift size, and the second week, the remaining
         hours are rounded down to the nearest shift size.
-        Loop through the team and assign the correct number of remaining hours to each tuple. 
+        Loop through the team and assign the correct number of remaining hours to each caregiver.
         Deduct the hours already assigned in that week of the RPh schedule from the remaining hours
         Randomly select an RPh caregiver, then randomly select a shift, and if RPh has remaining hours,
         and if there is no mismatch of skills, then assign the RPh to the shift. """
@@ -142,6 +142,9 @@ class Assignment:
         for _week in range(1, rph_schedule[-1].week_of_month + 1):
             assignable_team = []
             for _caregiver in team:
+                # skip per-diem RPh caregivers who have 0 minimum hours
+                if _caregiver.min_hours == 0:
+                    continue
                 remaining_hours = _caregiver.min_hours / 2
                 if remaining_hours % rph_shift_length != 0:
                     if pay_period_week == 1:
