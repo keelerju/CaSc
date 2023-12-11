@@ -28,7 +28,7 @@ class Assignment:
         return False
 
     @classmethod
-    def initial_assignment(cls, rph_schedule, tech_schedule, team):
+    def initial_assignment(cls, rph_schedule, tech_schedule, team, weekend_rotation):
         """ Initial assignment of caregivers into the schedule."""
         
         rph_schedule = cls.assign_must_dates_rph(rph_schedule, team)
@@ -36,8 +36,8 @@ class Assignment:
 
         rph_schedule = cls.assign_skilled_dates_rph(rph_schedule, team)
 
-        rph_schedule = cls.assign_weekends_rph(rph_schedule, team)
-        tech_schedule = cls.assign_weekends_tech(tech_schedule, team)
+        rph_schedule = cls.assign_weekends_rph(rph_schedule, team, weekend_rotation)
+        tech_schedule = cls.assign_weekends_tech(tech_schedule, team, weekend_rotation)
 
         rph_schedule = cls.create_initial_rph(rph_schedule, team)
         tech_schedule = cls.create_initial_tech(tech_schedule, team)
