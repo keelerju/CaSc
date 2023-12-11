@@ -3,7 +3,10 @@ from caregivertype import CaregiverType
 
 
 class WeekendRotation:
-    """ Class containing the weekend rotations of all caregivers """
+    """ Class containing the weekend rotations of all caregivers,
+    and useful attributes such as the reference date of a regularly
+    scheduled Saturday of the start of RPh and Tech weekend rotations,
+    and the number of caregivers who have regular weekend assignments """
 
     def __init__(self, team, rph_weekends=None, tech_weekends=None, ref_date=None):
 
