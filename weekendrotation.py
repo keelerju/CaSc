@@ -59,7 +59,8 @@ class WeekendRotation:
             self.rph_weekends.append(self.team[index])
 
     def set_ref_date(self):
-        """ Set a reference date to establish the start of the weekend rotation. """
+        """ Set a reference date to establish the start of the repeating weekend rotation.
+        The reference date may be a date in the past or future. """
 
         ref_date = input(f"Please enter a past or future date for when Caregiver {self.rph_weekends[0].name} "
                          f"did work or will work a regularly scheduled Saturday in the format MM/DD/YYYY: ")
