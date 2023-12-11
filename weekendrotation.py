@@ -64,3 +64,4 @@ class WeekendRotation:
         ref_date = input(f"Please enter a past or future date for when Caregiver {self.rph_weekends[0].name} "
                          f"did work or will work a regularly scheduled Saturday in the format MM/DD/YYYY: ")
 
+        self.ref_date = date(int(ref_date[6:10]), int(ref_date[0:2]), int(ref_date[3:5]))
