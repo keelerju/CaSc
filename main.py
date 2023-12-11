@@ -65,7 +65,7 @@ def main():
     # evaluation = Evaluation()
 
     rph_month.rph_schedule, tech_month.tech_schedule = (
-        Assignment.initial_assignment(rph_month.rph_schedule, tech_month.tech_schedule, team))
+        Assignment.initial_assignment(rph_month.rph_schedule, tech_month.tech_schedule, team, weekend_rotation))
 
 
 if __name__ == '__main__':
