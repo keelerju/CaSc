@@ -10,6 +10,7 @@ from schedule import Schedule
 from rphmonth import RphMonth
 from techmonth import TechMonth
 from team import Team
+from weekendrotation import WeekendRotation
 from datetime import date
 from constraints import Constraints
 from assignment import Assignment
@@ -21,6 +22,8 @@ def main():
     team = Team()
     team_size = int(input("Enter the number of caregivers: "))
     team.build_team(team_size)
+    
+    weekend_rotation = WeekendRotation(team)
 
     month = int(input("\nWhich month is being created (1-12)? "))
     year = int(input("Of which year? "))
