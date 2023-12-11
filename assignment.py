@@ -36,6 +36,9 @@ class Assignment:
 
         rph_schedule = cls.assign_skilled_dates_rph(rph_schedule, team)
 
+        rph_schedule = cls.assign_weekends_rph(rph_schedule, team)
+        tech_schedule = cls.assign_weekends_tech(tech_schedule, team)
+
         rph_schedule = cls.create_initial_rph(rph_schedule, team)
         tech_schedule = cls.create_initial_tech(tech_schedule, team)
 
@@ -105,6 +108,14 @@ class Assignment:
             rph_schedule[skilled_shift_index].caregiver_id_num = choice(skilled_rph).caregiver_id_num
 
         return rph_schedule
+
+    @classmethod
+    def assign_weekends_rph(cls, rph_schedule, team):
+        pass
+
+    @classmethod
+    def assign_weekends_tech(cls, tech_schedule, team):
+        pass
 
     @classmethod
     def create_initial_rph(cls, rph_schedule, team):
