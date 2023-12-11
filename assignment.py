@@ -3,6 +3,8 @@ from random import choice
 from caregivertype import CaregiverType
 from assignablecaregiver import AssignableCaregiver
 from skilltype import SkillType
+from shift import Shift
+from location import Location
 
 
 class Assignment:
@@ -119,6 +121,7 @@ class Assignment:
         and if there is no mismatch of skills, then assign the RPh to the shift. """
 
         rph_shift_length = 10
+        extra_shifts = []
         reference_date_start_of_pay_period = datetime(2023, 12, 3)
         start_day = datetime(rph_schedule[0].year, rph_schedule[0].month, rph_schedule[0].day)
         week_difference = (start_day - reference_date_start_of_pay_period).days
@@ -148,20 +151,33 @@ class Assignment:
                 total_remaining_hours += assignee.caregiver.remaining_hours
 
             # As long as there are remaining hours amongst the assignable team, randomly try to assign a caregiver
-            # to the RPh schedule.  (possible infinite loop - needs debugging to find all failure cases)
-            # Foresee that these failure cases include at least:
-            #     1: too many caregivers for the available shifts, so need to be able to create extra shifts in the
-            #        schedule that are strategically placed based on heaviest need.
+            # to the RPh schedule.  If there are remaining RPh caregivers after exhausting available shifts,
+            # random shifts will be added to the list extra_shifts, which is added back to rph_schedule finally.
             while total_remaining_hours:
                 assignee = choice(assignable_team)
                 shift_assignment = choice(range(((_week - 1) * shift_count), ((_week * shift_count) + 1)))
                 if (not rph_schedule[shift_assignment].caregiver_id_num and (assignee.remaining_hours != 0)
-                        and cls.skills_no_mismatch(assignee.caregiver, rph_schedule[shift_assignment])):
+                        and cls.skills_no_mismatch(assignee.caregiver, rph_schedule[shift_assignment])
+                        and (date(rph_schedule[shift_assignment].year, rph_schedule[shift_assignment].month,
+                                  rph_schedule[shift_assignment].day) not in assignee.caregiver.cant_dates)):
                     rph_schedule[shift_assignment].caregiver_id_num = assignee.caregiver.caregiver_id_num
                     assignee.remaining_hours -= rph_shift_length
-                    total_remaining_hours -= rph_shift_length
-                
+                    shift_count -= 1
+                    if assignee.remaining_hours == 0:
+                        assignable_team.remove(assignee)
+                    for assignee in assignable_team:
+                        total_remaining_hours += assignee.caregiver.remaining_hours
+                    if total_remaining_hours and not shift_count:
+                        for _assignee in assignable_team:
+                            random_day = choice([2, 3, 4, 5, 6])
+                            random_location = choice([Location.INPATIENT, Location.RETAIL])
+                            random_day_start = choice([7, 7.5])
+                            extra_shifts.append(Shift(day_of_week=random_day, location=random_location,
+                                                      start_time=random_day_start, end_time=(random_day_start + 10.5),
+                                                      caregiver_type=CaregiverType.RPH, skills=set()))
             pay_period_week = 2 if pay_period_week == 1 else 1
+        for extra_shift in extra_shifts:
+            rph_schedule.append(extra_shift)
         return rph_schedule
 
     @classmethod
