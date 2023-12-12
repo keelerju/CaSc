@@ -111,16 +111,28 @@ class Assignment:
 
     @classmethod
     def assign_weekends_rph(cls, rph_schedule, team, weekend_rotation):
+        
         weekend_difference = ((date(rph_schedule[0].year, rph_schedule[0].month, rph_schedule[0].day) - weekend_rotation.ref_date) - 1) / 7
+        
         if weekend_difference > weekend_rotation.weekend_rph_count:
             weekend_difference %= weekend_rotation.weekend_rph_count
+        
         if weekend_difference > 0:
             weekend_rph_index = weekend_rph_count - weekend_difference
         elif weekend_difference < 0:
             weekend_rph_index = weekend_rph_count + weekend_difference
         elif not weekend_difference:
             weekend_rph_index = 0
-        pass
+        
+        for _shift in rph_schedule:
+            if _shift.day_of_week == 1:
+                _shift.caregiver_id_num = weekend_rotation.rph_schedule[weekend_rph_index].caregiver_id_number
+            if _shift.day_of_week == 7:
+                if weekend_rph_index < weekend_rph_count:
+                    weekend_rph_index += 1
+                else: 
+                    weekend_rph_index = 0
+                _shift.caregiver_id_num = weekend_rotation.rph_schedule[weekend_rph_index].caregiver_id_number
         
     @classmethod
     def assign_weekends_tech(cls, tech_schedule, team, weekend_rotation):
