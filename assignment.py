@@ -9,7 +9,7 @@ from location import Location
 
 class Assignment:
     """ Class with class methods that accept schedules, team, and evaluation objects, that assigns caregivers
-    initially and employs various strategies for refinement based on evaluation criteria """
+        initially and employs various strategies for refinement based on evaluation criteria """
 
     def __init__(self):
         pass
@@ -47,7 +47,7 @@ class Assignment:
     @classmethod
     def assign_must_dates_rph(cls, rph_schedule, team):
         """ Loop through each caregiver, and if RPh, find their must-dates, if any, and
-        randomly assign them a shift on those dates. If no available shifts, provide a warning. """
+            randomly assign them a shift on those dates. If no available shifts, provide a warning. """
 
         for _caregiver in team.team:
             if _caregiver.must_dates and (_caregiver.caregiver_type == CaregiverType.RPH):
@@ -69,7 +69,7 @@ class Assignment:
     @classmethod
     def assign_must_dates_tech(cls, tech_schedule, team):
         """ Loop through each caregiver, and if Tech, find their must-dates, if any, and
-        randomly assign them a shift on those dates. If no available shifts, provide a warning. """
+            randomly assign them a shift on those dates. If no available shifts, provide a warning. """
         
         for _caregiver in team.team:
             if _caregiver.must_dates and (_caregiver.caregiver_type == CaregiverType.TECH):
@@ -91,8 +91,8 @@ class Assignment:
     @classmethod
     def assign_skilled_dates_rph(cls, rph_schedule, team):
         """ Create a list of the rph_schedule indexes for shifts with skill requirements.
-        Create a list of RPh caregivers with matching skill.
-        Loop through the list of skilled shifts, and randomly assign a RPh caregiver to each shift.  """
+            Create a list of RPh caregivers with matching skill.
+            Loop through the list of skilled shifts, and randomly assign a RPh caregiver to each shift.  """
 
         skilled_shift_indices = []
         for index, _shift in enumerate(rph_schedule):
