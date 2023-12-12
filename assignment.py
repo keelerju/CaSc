@@ -232,8 +232,11 @@ class Assignment:
                     if total_remaining_hours and not shift_count:
                         for _assignee in assignable_team:
                             random_day = choice([2, 3, 4, 5, 6])
-                            random_location = choice([Location.INPATIENT, Location.RETAIL])
-                            random_day_start = choice([7, 7.5])
+                            random_day_start = choice([7, 7, 7.5, 7.5])
+                            if random_day_start == 7:
+                                random_location = Location.INPATIENT
+                            else:
+                                random_location = Location.RETAIL
                             extra_shifts.append(Shift(day_of_week=random_day, location=random_location,
                                                       start_time=random_day_start, end_time=(random_day_start + 10.5),
                                                       caregiver_type=CaregiverType.RPH, skills=set()))
@@ -309,10 +312,13 @@ class Assignment:
                     if total_remaining_hours and not shift_count:
                         for _assignee in assignable_team:
                             random_day = choice([2, 3, 4, 5, 6])
-                            random_location = choice([Location.INPATIENT, Location.RETAIL])
-                            random_day_start = choice([7, 7.5])
+                            random_day_start = choice([7.5, 8.5, 9.5])
+                            if random_day_start == 7.5:
+                                random_location = Location.INPATIENT
+                            else:
+                                random_location = Location.RETAIL
                             extra_shifts.append(Shift(day_of_week=random_day, location=random_location,
-                                                      start_time=random_day_start, end_time=(random_day_start + 10.5),
+                                                      start_time=random_day_start, end_time=(random_day_start + 8.5),
                                                       caregiver_type=CaregiverType.TECH, skills=set()))
             pay_period_week = 2 if pay_period_week == 1 else 1
         for extra_shift in extra_shifts:
