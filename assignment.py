@@ -174,6 +174,7 @@ class Assignment:
             which week of the pay period is being assigned, then apportion the shifts for that caregiver so that the
             first week, the remaining hours are rounded up to the nearest shift size, and the second week, the remaining
             hours are rounded down to the nearest shift size.
+            Per-diem caregivers are not added to the assignable caregiver list.
             Loop through the team and assign the correct number of remaining hours to each caregiver.
             Deduct the hours already assigned in that week of the RPh schedule from the remaining hours
             Randomly select a Pharmacist caregiver, then randomly select a shift, and if RPh has remaining hours,
@@ -254,6 +255,7 @@ class Assignment:
             which week of the pay period is being assigned, then apportion the shifts for that caregiver so that the
             first week, the remaining hours are rounded up to the nearest shift size, and the second week, the remaining
             hours are rounded down to the nearest shift size.
+            Per-diem caregivers are not added to the assignable caregiver list.
             Loop through the team and assign the correct number of remaining hours to each caregiver.
             Deduct the hours already assigned in that week of the RPh schedule from the remaining hours
             Randomly select a Technician caregiver, then randomly select a shift, and if RPh has remaining hours,
