@@ -328,4 +328,9 @@ class Assignment:
         return tech_schedule
 
     def refinement(self, rph_schedule, tech_schedule, team, evaluation):
-        pass
+        """ Method to refine the schedule based on Evaluation instance """
+        
+        evaluation.evaluate()
+        
+        for shift in rph_schedule:
+            pass
