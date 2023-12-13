@@ -250,7 +250,7 @@ class Assignment:
         """ Create assignable_team, a list of AssignableCaregiver objects, each having 2 attributes,
             the caregiver and the remaining hours yet to be assigned for them for that week.
             If the Technician works a number of hours per pay period that when divided in
-            half is not divisible by the shift length (10 hours), then determine from a reference date in this method,
+            half is not divisible by the shift length (8 hours), then determine from a reference date in this method,
             which week of the pay period is being assigned, then apportion the shifts for that caregiver so that the
             first week, the remaining hours are rounded up to the nearest shift size, and the second week, the remaining
             hours are rounded down to the nearest shift size.
