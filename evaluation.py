@@ -3,3 +3,6 @@ class Evaluation:
 
     def __init(self):
         pass
+
+    def evaluate(self):
+        pass

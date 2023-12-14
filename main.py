@@ -62,13 +62,9 @@ def main():
     else:
         constraints.add_constraints(team, rph_month.rph_schedule, tech_month.tech_schedule)
 
-    # evaluation = Evaluation()
+    evaluation = Evaluation()
     
-    assignment = Assignment()
-
-    rph_month.rph_schedule, tech_month.tech_schedule = (
-        Assignment.initial_assignment(rph_month.rph_schedule, tech_month.tech_schedule, team, weekend_rotation))
-
+    assignment = Assignment(rph_month.rph_schedule, tech_month.tech_schedule, team, weekend_rotation, evaluation)
 
 if __name__ == '__main__':
     main()

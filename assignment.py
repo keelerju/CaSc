@@ -8,14 +8,20 @@ from location import Location
 
 
 class Assignment:
-    """ Class with class methods that accept schedules, team, and evaluation objects, that assigns caregivers
-        initially and employs various strategies for refinement based on evaluation criteria """
+    """ Class with methods that accept schedules, team, weekend rotation, and evaluation objects, that
+        assigns caregivers initially and employs various strategies for refinement based on evaluation criteria """
 
-    def __init__(self):
-        pass
+    def __init__(self, rph_schedule, tech_schedule, team, weekend_rotation, evaluation):
+        self.rph_schedule = rph_schedule
+        self.tech_schedule = tech_schedule
+        self.team = team
+        self.weekend_rotation = weekend_rotation
+        self.evaluation = evaluation
 
-    @classmethod
-    def skills_no_mismatch(cls, _caregiver, _shift):
+        self.initial_assignment()
+
+    @staticmethod
+    def skills_no_mismatch(_caregiver, _shift):
         """ Return true if there is no mismatch between a shift skill requirement and a caregiver skill """
         if not _shift.skills:
             return True
@@ -27,35 +33,31 @@ class Assignment:
                     return True
         return False
 
-    @classmethod
-    def initial_assignment(cls, rph_schedule, tech_schedule, team, weekend_rotation):
+    def initial_assignment(self):
         """ Initial assignment of caregivers into the schedule."""
         
-        rph_schedule = cls.assign_must_dates_rph(rph_schedule, team)
-        tech_schedule = cls.assign_must_dates_tech(tech_schedule, team)
+        self.assign_must_dates_rph()
+        self.assign_must_dates_tech()
 
-        rph_schedule = cls.assign_skilled_dates_rph(rph_schedule, team)
+        self.assign_skilled_dates_rph()
 
-        rph_schedule = cls.assign_weekends_rph(rph_schedule, weekend_rotation)
-        tech_schedule = cls.assign_weekends_tech(tech_schedule, weekend_rotation)
+        self.assign_weekends_rph()
+        self.assign_weekends_tech()
 
-        rph_schedule = cls.create_initial_rph(rph_schedule, team)
-        tech_schedule = cls.create_initial_tech(tech_schedule, team)
+        self.create_initial_rph()
+        self.create_initial_tech()
 
-        return rph_schedule, tech_schedule
-
-    @classmethod
-    def assign_must_dates_rph(cls, rph_schedule, team):
+    def assign_must_dates_rph(self):
         """ Loop through each caregiver, and if RPh, find their must-dates, if any, and
             randomly assign them a shift on those dates. If no available shifts, provide a warning. """
 
-        for _caregiver in team.team:
+        for _caregiver in self.team.team:
             if _caregiver.must_dates and (_caregiver.caregiver_type == CaregiverType.RPH):
                 for _date in _caregiver.must_dates:
                     _shifts = []
-                    for index, _shift in enumerate(rph_schedule):
+                    for index, _shift in enumerate(self.rph_schedule):
                         if ((_date == date(_shift.year, _shift.month, _shift.day_of_month))
-                                and not _shift.caregiver_id_num and cls.skills_no_mismatch(_caregiver, _shift)):
+                                and not _shift.caregiver_id_num and self.skills_no_mismatch(_caregiver, _shift)):
                             _shifts.append((index, _shift))
                     if not _shifts:
                         print(f"Cannot assign caregiver with ID# {_caregiver.caregiver_id_num} to "
@@ -63,21 +65,19 @@ class Assignment:
                         break
                     else:
                         chosen_shift = choice(_shifts)
-                        rph_schedule[_shifts[0]].caregiver_id_num = chosen_shift[1].caregiver_id_num
-        return rph_schedule
-    
-    @classmethod
-    def assign_must_dates_tech(cls, tech_schedule, team):
+                        self.rph_schedule[_shifts[0]].caregiver_id_num = chosen_shift[1].caregiver_id_num
+
+    def assign_must_dates_tech(self):
         """ Loop through each caregiver, and if Tech, find their must-dates, if any, and
             randomly assign them a shift on those dates. If no available shifts, provide a warning. """
         
-        for _caregiver in team.team:
+        for _caregiver in self.team.team:
             if _caregiver.must_dates and (_caregiver.caregiver_type == CaregiverType.TECH):
                 for _date in _caregiver.must_dates:
                     _shifts = []
-                    for index, _shift in enumerate(tech_schedule):
+                    for index, _shift in enumerate(self.tech_schedule):
                         if ((_date == date(_shift.year, _shift.month, _shift.day_of_month))
-                                and not _shift.caregiver_id_num and cls.skills_no_mismatch(_caregiver, _shift)):
+                                and not _shift.caregiver_id_num and self.skills_no_mismatch(_caregiver, _shift)):
                             _shifts.append((index, _shift))
                     if not _shifts:
                         print(f"Cannot assign caregiver with ID# {_caregiver.caregiver_id_num} to "
@@ -85,88 +85,79 @@ class Assignment:
                         break
                     else:
                         chosen_shift = choice(_shifts)
-                        tech_schedule[_shifts[0]].caregiver_id_num = chosen_shift[1].caregiver_id_num
-        return tech_schedule
+                        self.tech_schedule[_shifts[0]].caregiver_id_num = chosen_shift[1].caregiver_id_num
 
-    @classmethod
-    def assign_skilled_dates_rph(cls, rph_schedule, team):
+    def assign_skilled_dates_rph(self):
         """ Create a list of the rph_schedule indexes for shifts with skill requirements.
             Create a list of RPh caregivers with matching skill.
             Loop through the list of skilled shifts, and randomly assign a RPh caregiver to each shift.  """
 
         skilled_shift_indices = []
-        for index, _shift in enumerate(rph_schedule):
+        for index, _shift in enumerate(self.rph_schedule):
             if SkillType.CHEMO in _shift.skills:
                 skilled_shift_indices.append(index)
 
         skilled_rph = []
-        for _caregiver in team:
+        for _caregiver in self.team:
             if (_caregiver.caregiver_type == CaregiverType.RPH) and (SkillType.CHEMO in _caregiver.skills):
                 skilled_rph.append(_caregiver)
 
         for skilled_shift_index in skilled_shift_indices:
-            rph_schedule[skilled_shift_index].caregiver_id_num = choice(skilled_rph).caregiver_id_num
+            self.rph_schedule[skilled_shift_index].caregiver_id_num = choice(skilled_rph).caregiver_id_num
 
-        return rph_schedule
-
-    @classmethod
-    def assign_weekends_rph(cls, rph_schedule, weekend_rotation):
+    def assign_weekends_rph(self):
         
-        weekend_difference = ((date(rph_schedule[0].year, rph_schedule[0].month,
-                                    rph_schedule[0].day) - weekend_rotation.ref_date) - 1) / 7
+        weekend_difference = ((date(self.rph_schedule[0].year, self.rph_schedule[0].month,
+                                    self.rph_schedule[0].day) - self.weekend_rotation.ref_date) - 1) / 7
         weekend_rph_index = 0
 
-        if weekend_difference > weekend_rotation.weekend_rph_count:
-            weekend_difference %= weekend_rotation.weekend_rph_count
+        if weekend_difference > self.weekend_rotation.weekend_rph_count:
+            weekend_difference %= self.weekend_rotation.weekend_rph_count
         
         if weekend_difference > 0:
-            weekend_rph_index = weekend_rotation.weekend_rph_count - weekend_difference
+            weekend_rph_index = self.weekend_rotation.weekend_rph_count - weekend_difference
         elif weekend_difference < 0:
-            weekend_rph_index = weekend_rotation.weekend_rph_count + weekend_difference
+            weekend_rph_index = self.weekend_rotation.weekend_rph_count + weekend_difference
         elif not weekend_difference:
             weekend_rph_index = 0
         
-        for _shift in rph_schedule:
+        for _shift in self.rph_schedule:
             if _shift.day_of_week == 1:
-                _shift.caregiver_id_num = weekend_rotation.rph_schedule[weekend_rph_index].caregiver_id_number
+                _shift.caregiver_id_num = self.weekend_rotation.rph_schedule[weekend_rph_index].caregiver_id_number
             if _shift.day_of_week == 7:
-                if weekend_rph_index < weekend_rotation.weekend_rph_count:
+                if weekend_rph_index < self.weekend_rotation.weekend_rph_count:
                     weekend_rph_index += 1
                 else: 
                     weekend_rph_index = 0
-                _shift.caregiver_id_num = weekend_rotation.rph_schedule[weekend_rph_index].caregiver_id_number
-        return rph_schedule
-        
-    @classmethod
-    def assign_weekends_tech(cls, tech_schedule, weekend_rotation):
+                _shift.caregiver_id_num = self.weekend_rotation.rph_schedule[weekend_rph_index].caregiver_id_number
 
-        weekend_difference = ((date(tech_schedule[0].year, tech_schedule[0].month,
-                                    tech_schedule[0].day) - weekend_rotation.ref_date) - 1) / 7
+    def assign_weekends_tech(self):
+
+        weekend_difference = ((date(self.tech_schedule[0].year, self.tech_schedule[0].month,
+                                    self.tech_schedule[0].day) - self.weekend_rotation.ref_date) - 1) / 7
         weekend_tech_index = 0
 
-        if weekend_difference > weekend_rotation.weekend_tech_count:
-            weekend_difference %= weekend_rotation.weekend_tech_count
+        if weekend_difference > self.weekend_rotation.weekend_tech_count:
+            weekend_difference %= self.weekend_rotation.weekend_tech_count
 
         if weekend_difference > 0:
-            weekend_tech_index = weekend_rotation.weekend_tech_count - weekend_difference
+            weekend_tech_index = self.weekend_rotation.weekend_tech_count - weekend_difference
         elif weekend_difference < 0:
-            weekend_tech_index = weekend_rotation.weekend_tech_count + weekend_difference
+            weekend_tech_index = self.weekend_rotation.weekend_tech_count + weekend_difference
         elif not weekend_difference:
             weekend_tech_index = 0
 
-        for _shift in tech_schedule:
+        for _shift in self.tech_schedule:
             if _shift.day_of_week == 1:
-                _shift.caregiver_id_num = weekend_rotation.tech_schedule[weekend_tech_index].caregiver_id_number
+                _shift.caregiver_id_num = self.weekend_rotation.tech_schedule[weekend_tech_index].caregiver_id_number
             if _shift.day_of_week == 7:
-                if weekend_tech_index < weekend_rotation.weekend_rph_count:
+                if weekend_tech_index < self.weekend_rotation.weekend_rph_count:
                     weekend_tech_index += 1
                 else:
                     weekend_tech_index = 0
-                _shift.caregiver_id_num = weekend_rotation.tech_schedule[weekend_tech_index].caregiver_id_number
-        return tech_schedule
+                _shift.caregiver_id_num = self.weekend_rotation.tech_schedule[weekend_tech_index].caregiver_id_number
 
-    @classmethod
-    def create_initial_rph(cls, rph_schedule, team):
+    def create_initial_rph(self):
         """ Create assignable_team, a list of AssignableCaregiver objects, each having 2 attributes,
             the caregiver and the remaining hours yet to be assigned for them for that week.
             If the Pharmacist works a number of hours per pay period that when divided in
@@ -183,14 +174,14 @@ class Assignment:
         rph_shift_length = 10
         extra_shifts = []
         reference_date_start_of_pay_period = datetime(2023, 12, 3)
-        start_day = datetime(rph_schedule[0].year, rph_schedule[0].month, rph_schedule[0].day)
+        start_day = datetime(self.rph_schedule[0].year, self.rph_schedule[0].month, self.rph_schedule[0].day)
         week_difference = (start_day - reference_date_start_of_pay_period).days
         pay_period_week = 1
         if week_difference % 14 != 0:
             pay_period_week = 2
-        for _week in range(1, rph_schedule[-1].week_of_month + 1):
+        for _week in range(1, self.rph_schedule[-1].week_of_month + 1):
             assignable_team = []
-            for _caregiver in team:
+            for _caregiver in self.team:
                 # skip per-diem Pharmacist caregivers who have 0 minimum hours
                 if _caregiver.min_hours == 0:
                     continue
@@ -204,7 +195,7 @@ class Assignment:
 
             # provide a count of shifts in this week
             shift_count = 0
-            for _shift in rph_schedule:
+            for _shift in self.rph_schedule:
                 if _shift.week_of_month == _week:
                     shift_count += 1
 
@@ -219,11 +210,11 @@ class Assignment:
             while total_remaining_hours:
                 assignee = choice(assignable_team)
                 shift_assignment = choice(range(((_week - 1) * shift_count), ((_week * shift_count) + 1)))
-                if (not rph_schedule[shift_assignment].caregiver_id_num and (assignee.remaining_hours != 0)
-                        and cls.skills_no_mismatch(assignee.caregiver, rph_schedule[shift_assignment])
-                        and (date(rph_schedule[shift_assignment].year, rph_schedule[shift_assignment].month,
-                                  rph_schedule[shift_assignment].day) not in assignee.caregiver.cant_dates)):
-                    rph_schedule[shift_assignment].caregiver_id_num = assignee.caregiver.caregiver_id_num
+                if (not self.rph_schedule[shift_assignment].caregiver_id_num and (assignee.remaining_hours != 0)
+                        and self.skills_no_mismatch(assignee.caregiver, self.rph_schedule[shift_assignment])
+                        and (date(self.rph_schedule[shift_assignment].year, self.rph_schedule[shift_assignment].month,
+                                  self.rph_schedule[shift_assignment].day) not in assignee.caregiver.cant_dates)):
+                    self.rph_schedule[shift_assignment].caregiver_id_num = assignee.caregiver.caregiver_id_num
                     assignee.remaining_hours -= rph_shift_length
                     shift_count -= 1
                     if assignee.remaining_hours == 0:
@@ -243,11 +234,9 @@ class Assignment:
                                                       caregiver_type=CaregiverType.RPH, skills=set()))
             pay_period_week = 2 if pay_period_week == 1 else 1
         for extra_shift in extra_shifts:
-            rph_schedule.append(extra_shift)
-        return rph_schedule
+            self.rph_schedule.append(extra_shift)
 
-    @classmethod
-    def create_initial_tech(cls, tech_schedule, team):
+    def create_initial_tech(self):
         """ Create assignable_team, a list of AssignableCaregiver objects, each having 2 attributes,
             the caregiver and the remaining hours yet to be assigned for them for that week.
             If the Technician works a number of hours per pay period that when divided in
@@ -264,14 +253,14 @@ class Assignment:
         tech_shift_length = 8
         extra_shifts = []
         reference_date_start_of_pay_period = datetime(2023, 12, 3)
-        start_day = datetime(tech_schedule[0].year, tech_schedule[0].month, tech_schedule[0].day)
+        start_day = datetime(self.tech_schedule[0].year, self.tech_schedule[0].month, self.tech_schedule[0].day)
         week_difference = (start_day - reference_date_start_of_pay_period).days
         pay_period_week = 1
         if week_difference % 14 != 0:
             pay_period_week = 2
-        for _week in range(1, tech_schedule[-1].week_of_month + 1):
+        for _week in range(1, self.tech_schedule[-1].week_of_month + 1):
             assignable_team = []
-            for _caregiver in team:
+            for _caregiver in self.team:
                 # skip per-diem Technician caregivers who have 0 minimum hours
                 if _caregiver.min_hours == 0:
                     continue
@@ -285,7 +274,7 @@ class Assignment:
 
             # provide a count of shifts in this week
             shift_count = 0
-            for _shift in tech_schedule:
+            for _shift in self.tech_schedule:
                 if _shift.week_of_month == _week:
                     shift_count += 1
 
@@ -300,11 +289,11 @@ class Assignment:
             while total_remaining_hours:
                 assignee = choice(assignable_team)
                 shift_assignment = choice(range(((_week - 1) * shift_count), ((_week * shift_count) + 1)))
-                if (not tech_schedule[shift_assignment].caregiver_id_num and (assignee.remaining_hours != 0)
-                        and cls.skills_no_mismatch(assignee.caregiver, tech_schedule[shift_assignment])
-                        and (date(tech_schedule[shift_assignment].year, tech_schedule[shift_assignment].month,
-                                  tech_schedule[shift_assignment].day) not in assignee.caregiver.cant_dates)):
-                    tech_schedule[shift_assignment].caregiver_id_num = assignee.caregiver.caregiver_id_num
+                if (not self.tech_schedule[shift_assignment].caregiver_id_num and (assignee.remaining_hours != 0)
+                        and self.skills_no_mismatch(assignee.caregiver, self.tech_schedule[shift_assignment])
+                        and (date(self.tech_schedule[shift_assignment].year, self.tech_schedule[shift_assignment].month,
+                                  self.tech_schedule[shift_assignment].day) not in assignee.caregiver.cant_dates)):
+                    self.tech_schedule[shift_assignment].caregiver_id_num = assignee.caregiver.caregiver_id_num
                     assignee.remaining_hours -= tech_shift_length
                     shift_count -= 1
                     if assignee.remaining_hours == 0:
@@ -324,13 +313,12 @@ class Assignment:
                                                       caregiver_type=CaregiverType.TECH, skills=set()))
             pay_period_week = 2 if pay_period_week == 1 else 1
         for extra_shift in extra_shifts:
-            tech_schedule.append(extra_shift)
-        return tech_schedule
+            self.tech_schedule.append(extra_shift)
 
-    def refinement(self, rph_schedule, tech_schedule, team, evaluation):
+    def refinement(self):
         """ Method to refine the schedule based on Evaluation instance """
         
-        evaluation.evaluate()
+        self.evaluation.evaluate()
         
-        for shift in rph_schedule:
+        for shift in self.rph_schedule:
             pass
