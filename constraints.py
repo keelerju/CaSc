@@ -14,8 +14,8 @@ class Constraints:
         # Accept constraints from the user and append them to the list of constraints
         repeat = True
         while repeat:
-            _date = input("Please enter the date of a constraint in the format of MM/DD/YYYY: ")
-            _date = date(int(_date[6:10]), int(_date[0:2]), int(_date[3:5]))
+            constraint_date = input("Please enter the date of a constraint in the format of MM/DD/YYYY: ")
+            constraint_date = date(int(constraint_date[6:10]), int(constraint_date[0:2]), int(constraint_date[3:5]))
 
             print("**************************************")
             print("* 1 Caregiver cannot work this date  *")
@@ -28,13 +28,13 @@ class Constraints:
                 _caregiver_id_num = input("Please enter the Caregiver ID number: ")
                 for _caregiver in team.team:
                     if _caregiver.caregiver_id_num == _caregiver_id_num:
-                        _caregiver.cant_dates.add(_date)
+                        _caregiver.cant_dates.add(constraint_date)
             
             elif _criteria == "2":
                 _caregiver_id_num = input("Please enter the Caregiver ID number: ")
                 for _caregiver in team.team:
                     if _caregiver.caregiver_id_num == _caregiver_id_num:
-                        _caregiver.must_dates.add(_date)
+                        _caregiver.must_dates.add(constraint_date)
                 
             elif _criteria == "3":
                 print("**************************************")
@@ -48,7 +48,7 @@ class Constraints:
                     # display RPh shift options
                     _index = 1
                     for _shift in rph_schedule:
-                        if _shift.date == _date:
+                        if _shift.date == constraint_date:
                             print(f"Index: {_index}    {vars(_shift)}")
                     _template_shift = input("Please enter which shift to apply this to (ENTER for none): ")
                     if _template_shift == "":
@@ -57,13 +57,13 @@ class Constraints:
                         # make the change to the RPh schedule
                         _shift_index = 1
                         for _shift in rph_schedule:
-                            if (_shift.date == _date) and (_shift_index == _index):
+                            if (_shift.date == constraint_date) and (_shift_index == _index):
                                 _shift.skills.add("CHEMO")
                 elif _caregiver_local_type == "2":
                     # display Tech shift options
                     index = 1
                     for _shift in tech_schedule:
-                        if _shift.date == _date:
+                        if _shift.date == constraint_date:
                             print(f"Index: {index}    {vars(_shift)}")
                     _template_shift = input("Please enter which shift to apply this to (ENTER for none): ")
                     if _template_shift == "":
@@ -72,10 +72,11 @@ class Constraints:
                         # make the change to the Tech schedule
                         shift_index = 1
                         for _shift in tech_schedule:
-                            if (_shift.date == _date) and (_shift_index == index):
+                            if (_shift.date == constraint_date) and (_shift_index == index):
                                 _shift.skills.add("CHEMO")
             # update the list of constraints
-            self.constraints.append(Constraint(date=_date, criteria=_criteria, caregiver_id_num=_caregiver_id_num))
+            self.constraints.append(Constraint(date=constraint_date, criteria=_criteria,
+                                               caregiver_id_num=_caregiver_id_num))
 
     def remove_constraint(self):
         # Show an indexed list of constraints and have user choose a valid index to remove or [ENTER] to escape.

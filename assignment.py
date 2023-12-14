@@ -1,4 +1,4 @@
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from random import choice
 from caregivertype import CaregiverType
 from assignablecaregiver import AssignableCaregiver
@@ -43,6 +43,9 @@ class Assignment:
 
         self.assign_weekends_rph()
         self.assign_weekends_tech()
+
+        self.assign_cant_dates_rph()
+        self.assign_cant_dates_tech()
 
         self.create_initial_rph()
         self.create_initial_tech()
@@ -157,6 +160,41 @@ class Assignment:
                     weekend_tech_index = 0
                 _shift.caregiver_id_num = self.weekend_rotation.tech_schedule[weekend_tech_index].caregiver_id_number
 
+    def assign_cant_dates_rph(self):
+        """ Assign cant_dates based on the schedule and on time-off requests """
+
+        # if RPh caregiver works a weekend, they get the following Friday off.
+        for _shift in self.rph_schedule:
+            if _shift.day_of_week == 1:
+                for _caregiver in self.team:
+                    if _caregiver.caregiver_id_num == _shift.caregiver_id_num:
+                        _caregiver.cant_dates.add(date(_shift.year, _shift.month, _shift.day_of_month) + timedelta(5))
+
+        # accept time-off requests
+        self.accept_time_off_requests("Pharmacist")
+
+    def assign_cant_dates_tech(self):
+        """ Assign cant_dates based on the schedule and on time-off requests """
+
+        # accept time-off requests
+        self.accept_time_off_requests("Technician")
+
+    def accept_time_off_requests(self, caregiver_descriptor):
+        """ Accept time-off requests based on caregiver type and assign cant_dates to the respective schedule """
+        while True:
+            caregiver_id = input(f"Please enter the {caregiver_descriptor} Caregiver ID# "
+                                 f"who has a time-off request, or [ENTER] for none: ")
+            if caregiver_id == "":
+                break
+            time_off_date = input("Please enter the date of the time-off request for this caregiver "
+                                  "in the format of MM/DD/YYYY, or [ENTER] for none: ")
+            if time_off_date == "":
+                break
+            time_off_date = date(int(time_off_date[6:10]), int(time_off_date[0:2]), int(time_off_date[3:5]))
+            for _caregiver in self.team:
+                if _caregiver.caregiver_id_num == caregiver_id:
+                    _caregiver.cant_dates.add(time_off_date)
+
     def create_initial_rph(self):
         """ Create assignable_team, a list of AssignableCaregiver objects, each having 2 attributes,
             the caregiver and the remaining hours yet to be assigned for them for that week.
@@ -230,7 +268,8 @@ class Assignment:
                             else:
                                 random_location = Location.RETAIL
                             extra_shifts.append(Shift(day_of_week=random_day, location=random_location,
-                                                      start_time=random_day_start, end_time=(random_day_start + 10.5),
+                                                      start_time=random_day_start,
+                                                      end_time=(random_day_start + rph_shift_length + 0.5),
                                                       caregiver_type=CaregiverType.RPH, skills=set()))
             pay_period_week = 2 if pay_period_week == 1 else 1
         for extra_shift in extra_shifts:
@@ -309,7 +348,8 @@ class Assignment:
                             else:
                                 random_location = Location.RETAIL
                             extra_shifts.append(Shift(day_of_week=random_day, location=random_location,
-                                                      start_time=random_day_start, end_time=(random_day_start + 8.5),
+                                                      start_time=random_day_start,
+                                                      end_time=(random_day_start + tech_shift_length + 0.5),
                                                       caregiver_type=CaregiverType.TECH, skills=set()))
             pay_period_week = 2 if pay_period_week == 1 else 1
         for extra_shift in extra_shifts:
