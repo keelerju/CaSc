@@ -8,7 +8,7 @@ class WeekendRotation:
     scheduled Saturday of the start of RPh and Tech weekend rotations,
     and the number of caregivers who have regular weekend assignments """
 
-    def __init__(self, team, rph_weekends=None, tech_weekends=None, ref_date=None):
+    def __init__(self, team, rph_weekends=None, tech_weekends=None, ref_date_rph=None, ref_date_tech=None):
 
         self.team = team
 
@@ -22,11 +22,16 @@ class WeekendRotation:
         else:
             self.tech_weekends = tech_weekends
 
-        if not ref_date:
-            self.set_ref_date()
+        if not ref_date_rph:
+            self.set_ref_date_rph()
         else:
-            self.ref_date = ref_date
-        
+            self.ref_date_rph = ref_date_rph
+
+        if not ref_date_tech:
+            self.set_ref_date_tech()
+        else:
+            self.ref_date_tech = ref_date_tech
+
         self.weekend_rph_count = len(rph_weekends)
         self.weekend_tech_count = len(tech_weekends)
 
@@ -64,11 +69,20 @@ class WeekendRotation:
             print(f"Please enter the Caregiver ID of Technician assigned to work weekend # {index}? ")
             self.rph_weekends.append(self.team[index])
 
-    def set_ref_date(self):
+    def set_ref_date_rph(self):
         """ Set a reference date to establish the start of the repeating weekend rotation.
         The reference date may be a date in the past or future. """
 
-        ref_date = input(f"Please enter a past or future date for when Caregiver {self.rph_weekends[0].name} "
+        ref_date = input(f"Please enter a past or future date for when RPh Caregiver {self.rph_weekends[0].name} "
                          f"did work or will work a regularly scheduled Saturday in the format MM/DD/YYYY: ")
 
-        self.ref_date = date(int(ref_date[6:10]), int(ref_date[0:2]), int(ref_date[3:5]))
+        self.ref_date_rph = date(int(ref_date[6:10]), int(ref_date[0:2]), int(ref_date[3:5]))
+
+    def set_ref_date_tech(self):
+        """ Set a reference date to establish the start of the repeating weekend rotation.
+        The reference date may be a date in the past or future. """
+
+        ref_date = input(f"Please enter a past or future date for when Tech Caregiver {self.tech_weekends[0].name} "
+                         f"did work or will work a regularly scheduled Saturday in the format MM/DD/YYYY: ")
+
+        self.ref_date_tech = date(int(ref_date[6:10]), int(ref_date[0:2]), int(ref_date[3:5]))

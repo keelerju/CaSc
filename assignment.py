@@ -47,8 +47,8 @@ class Assignment:
         self.assign_cant_dates_rph()
         self.assign_cant_dates_tech()
 
-        self.create_initial(self.rph_schedule, self.team, 10, CaregiverType.RPH)
-        self.create_initial(self.tech_schedule, self.team, 8, CaregiverType.TECH)
+        self.rph_schedule = self.create_initial(self.rph_schedule, 10, CaregiverType.RPH)
+        self.tech_schedule = self.create_initial(self.tech_schedule, 8, CaregiverType.TECH)
 
     def assign_must_dates_rph(self):
         """ Loop through each caregiver, and if RPh, find their must-dates, if any, and
@@ -111,7 +111,7 @@ class Assignment:
     def assign_weekends_rph(self):
         
         weekend_difference = ((date(self.rph_schedule[0].year, self.rph_schedule[0].month,
-                                    self.rph_schedule[0].day) - self.weekend_rotation.ref_date) - 1) / 7
+                                    self.rph_schedule[0].day) - self.weekend_rotation.ref_date_rph) - 1) / 7
         weekend_rph_index = 0
 
         if weekend_difference > self.weekend_rotation.weekend_rph_count:
@@ -137,7 +137,7 @@ class Assignment:
     def assign_weekends_tech(self):
 
         weekend_difference = ((date(self.tech_schedule[0].year, self.tech_schedule[0].month,
-                                    self.tech_schedule[0].day) - self.weekend_rotation.ref_date) - 1) / 7
+                                    self.tech_schedule[0].day) - self.weekend_rotation.ref_date_tech) - 1) / 7
         weekend_tech_index = 0
 
         if weekend_difference > self.weekend_rotation.weekend_tech_count:
@@ -195,8 +195,7 @@ class Assignment:
                 if _caregiver.caregiver_id_num == caregiver_id:
                     _caregiver.cant_dates.add(time_off_date)
 
-    @staticmethod
-    def create_initial(schedule, team, shift_length, caregiver_type):
+    def create_initial(self, schedule, shift_length, caregiver_type):
         """ Create assignable_team, a list of AssignableCaregiver objects, each having 2 attributes,
             the caregiver and the remaining hours yet to be assigned for them for that week.
             If the Caregiver works a number of hours per pay period that when divided in
@@ -219,7 +218,7 @@ class Assignment:
             pay_period_week = 2
         for _week in range(1, schedule[-1].week_of_month + 1):
             assignable_team = []
-            for _caregiver in team:
+            for _caregiver in self.team:
                 # skip per-diem caregivers who have 0 minimum hours
                 if _caregiver.min_hours == 0:
                     continue
@@ -275,6 +274,7 @@ class Assignment:
         for extra_shift in extra_shifts:
             # Extra shifts are tacked on to the end, but unsure if they should be inserted within the schedule?
             schedule.append(extra_shift)
+        return schedule
 
     def refinement(self):
         """ Method to refine the schedule based on Evaluation instance """
