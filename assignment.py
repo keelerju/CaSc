@@ -51,7 +51,7 @@ class Assignment:
         """ Loop through each caregiver, and if RPh, find their must-dates, if any, and
             randomly assign them a shift on those dates. If no available shifts, provide a warning. """
 
-        for _caregiver in self.team.team:
+        for _caregiver in self.team:
             if _caregiver.must_dates and (_caregiver.caregiver_type == CaregiverType.RPH):
                 for _date in _caregiver.must_dates:
                     _shifts = []
@@ -71,7 +71,7 @@ class Assignment:
         """ Loop through each caregiver, and if Tech, find their must-dates, if any, and
             randomly assign them a shift on those dates. If no available shifts, provide a warning. """
         
-        for _caregiver in self.team.team:
+        for _caregiver in self.team:
             if _caregiver.must_dates and (_caregiver.caregiver_type == CaregiverType.TECH):
                 for _date in _caregiver.must_dates:
                     _shifts = []
