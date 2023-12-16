@@ -10,6 +10,8 @@ class Evaluation:
         """ Evaluate each schedule for the various criteria and generate criteria scores and a composite score. """
 
         # Evaluate based on variety of shift locations per Caregiver
+        for shift in rph_schedule:
+            pass
 
         # Evaluate based on number of shifts in either Inpatient or Retail pharmacy per Caregiver
 
