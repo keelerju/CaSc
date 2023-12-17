@@ -14,6 +14,9 @@ class Evaluation:
             pass
 
         # Evaluate based on number of shifts in either Inpatient or Retail pharmacy per Caregiver
+        for shift in rph_schedule:
+            pass
 
         # Evaluate based on variety of start times per Caregiver
-
+        for shift in rph_schedule:
+            pass
