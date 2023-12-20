@@ -279,8 +279,17 @@ class Assignment:
     def refinement(self):
         """ Method to refine the schedule based on Evaluation instance """
         
+        # Calculate before score. 
         self.evaluation.evaluate()
+        before_score = evaluation.shift_locations.score + evaluation.shift_times_score
         
-        before_score = evaluation. 
+        # Make a change to the schedule among non-perdiem Caregivers that doesn't violate any cant_dates or must_dates. 
         for shift in self.rph_schedule:
             pass
+        
+        # Calculate the after score. 
+        self.evaluation.evaluate()
+        after_score = evaluation.shift_locations.score + evaluation.shift_times_score
+        
+        # If the before score is greater or equal to the after score, undo the schedule change. 
+        pass
