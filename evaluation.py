@@ -5,7 +5,10 @@ class Evaluation:
         self.rph_schedule = rph_schedule
         self.tech_schedule = tech_schedule
         self.team = team
-        self.evaluated_team = []
+        self.eval_team = set()
+        
+        for _caregiver in self.team:
+            self.eval_team.add( [_caregiver.caregiver_id_num, 0] )
         
         self.shift_locations_score = 0
         self.max_shift_locations_score = 0
@@ -40,8 +43,11 @@ class Evaluation:
     def evaluate_shift_locations(self):
         """ Evaluate based on variety of shift locations per Caregiver """
         
+        count0700 = 0
+        count0730wd = 0
+        
         for _shift in rph_schedule:
-            pass
+            _shift.caregiver_id_num
         
         for _shift in tech_schedule:
             pass
