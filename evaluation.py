@@ -6,12 +6,30 @@ class Evaluation:
         self.tech_schedule = tech_schedule
         self.team = team
         self.evaluated_team = []
+        
         self.shift_locations_score = 0
         self.max_shift_locations_score = 0
         self.min_shift_locations_score = 0
+        
+        self.shift_locations_rph_score = 0
+        self.max_shift_locations_rph_score = 0
+        self.min_shift_locations_rph_score = 0
+        
+        self.shift_locations_tech_score = 0
+        self.max_shift_locations_tech_score = 0
+        self.min_shift_locations_tech_score = 0
+        
         self.shift_times_score = 0
-        self.max_times_score = 0
+        self.max_shift_times_score = 0
         self.min_times_score = 0
+        
+        self.shift_times_rph_score = 0
+        self.max_shift_times_rph_score = 0
+        self.min_shift_times_rph_score = 0
+        
+        self.shift_times_tech_score = 0
+        self.max_shift_times_tech_score = 0
+        self.min_shift_times_tech_score = 0
 
     def evaluate(self):
         """ Evaluate each schedule for the various criteria and generate criteria scores and a composite score. """
