@@ -69,6 +69,9 @@ class Assignment:
                     else:
                         chosen_shift = choice(_shifts)
                         self.rph_schedule[_shifts[0]].caregiver_id_num = chosen_shift[1].caregiver_id_num
+                        for _caregivee in self.team:
+                            if _caregiver.caregiver_if_num == chosen_shift[1].caregiver_id_num:
+                                _caregiver.assigned_shifts.add(chosen_shift)
 
     def assign_must_dates_tech(self):
         """ Loop through each caregiver, and if Tech, find their must-dates, if any, and
@@ -89,6 +92,9 @@ class Assignment:
                     else:
                         chosen_shift = choice(_shifts)
                         self.tech_schedule[_shifts[0]].caregiver_id_num = chosen_shift[1].caregiver_id_num
+                        for _caregivee in self.team:
+                            if _caregiver.caregiver_if_num == chosen_shift[1].caregiver_id_num:
+                                _caregiver.assigned_shifts.add(chosen_shift)
 
     def assign_skilled_dates_rph(self):
         """ Create a list of the rph_schedule indexes for shifts with skill requirements.
