@@ -1,4 +1,5 @@
 from evalcaregiver import EvalCaregiver
+from location import Location
 
 
 class Evaluation:
@@ -8,10 +9,10 @@ class Evaluation:
         self.rph_schedule = rph_schedule
         self.tech_schedule = tech_schedule
         self.team = team
-        self.eval_team = set()
+        self.eval_team = []
         
         for _caregiver in self.team:
-            self.eval_team.add(EvalCaregiver(_caregiver.caregiver_id_num))
+            self.eval_team.append(EvalCaregiver(_caregiver.caregiver_id_num))
         
         self.shift_locations_score = 0
         self.max_shift_locations_score = 0
@@ -47,7 +48,16 @@ class Evaluation:
         """ Evaluate based on variety of shift locations per Caregiver """
         
         for _shift in rph_schedule:
-            _shift.caregiver_id_num
+            if _shift.location == Location.INPATIENT:
+                for _eval_cg in self.eval_team:
+                    if _shift.caregiver_id_num == _eval_cg.caregiver_id_num:
+                        _eval_cg.inpatient_locs += 1
+        
+        for _shift in rph_schedule:
+            if _shift.location == Location.RETAIL:
+                for _eval_cg in self.eval_team:
+                    if _shift.caregiver_id_num == _eval_cg.caregiver_id_num:
+                        _eval_cg.retail_locs += 1
         
         for _shift in tech_schedule:
             pass
@@ -56,7 +66,10 @@ class Evaluation:
         """ Evaluate based on variety of shift times per Caregiver """
         
         for _shift in rph_schedule:
-            pass
+            if _shift_start_time == 7:
+                for _eval_cg in self.eval_team:
+                    if _shift.caregiver_id_num == _eval_cg.caregiver_id_num:
+                        _eval_cg.time0700 += 1
         
         for _shift in tech_schedule:
             pass
