@@ -163,12 +163,15 @@ class Evaluation:
         
         rph_0700_variance = variance(eval_team_rph_0700)
         rph_0730wd_variance = variance(eval_team_rph_0730wd)
-        self.shift_locations_rph_score = ( (inpt_rph_variance + retail_rph_variance) * len([cg for cg in team if cg.caregiver_type == CaregiverType.RPH]))
+        self.shift_times_rph_score = ( (rph_0700_variance + rph_0730wd_variance) * len([cg for cg in team if cg.caregiver_type == CaregiverType.RPH]))
         
-        inpt_tech_variance = variance(eval_team_tech_inpt_locs)
-        retail_tech_variance = variance(eval_team_tech_retail_locs)
-        self.shift_locations_tech_score = ( (inpt_tech_variance + retail_tech_variance) * len([cg for cg in team if cg.caregiver_type == CaregiverType.TECH]))
+        tech_0700_variance = variance(eval_team_tech_0700)
+        tech_0900_variance = variance(eval_team_tech_0900)
+        tech_0730wd_variance = variance(eval_team_rph_0730wd)
+        tech_0830_variance = variance(eval_team_tech_0830)
+        tech_0930_variance = variance(eval_team_tech_0930)
+        self.shift_times_tech_score = ( (tech_0700_variance + tech_0900_variance + tech_0730wd_variance + tech_0830_variance + tech_0930_variance) * len([cg for cg in team if cg.caregiver_type == CaregiverType.TECH]))
         
-        self.shift_locations_score = self.shift_locations_rph_score + self.shift_locations_tech_score
+        self.shift_times_score = self.shift_times_rph_score + self.shift_times_tech_score
         
     
