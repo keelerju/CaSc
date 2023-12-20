@@ -151,12 +151,12 @@ class Evaluation:
         
         for _eval_cg in eval_team:
             if _eval_cg.caregivertype == CaregiverType.RPH:
-                eval_team_rph_inpt_locs.append(_eval_cg.inpt_locs)
-                eval_team_rph_retail_locs.append(_eval_cg.retail_locs)
+                eval_team_rph_0700.append(_eval_cg.time0700)
+                eval_team_rph_0730wd.append(_eval_cg.time0730wd)
                 
             if _eval_cg.caregivertype == CaregiverType.TECH:
-                eval_team_tech_inpt_locs.append(_eval_cg.inpt_locs)
-                eval_team_tech_retail_locs.append(_eval_cg.retail_locs)
+                eval_team_tech_0700.append(_eval_cg.time0700)
+                eval_team_tech_0900.append(_eval_cg.time0900)
         
         inpt_rph_variance = variance(eval_team_rph_inpt_locs)
         retail_rph_variance = variance(eval_team_rph_retail_locs)
