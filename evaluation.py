@@ -143,4 +143,32 @@ class Evaluation:
         eval_team_tech_0730wds = []
         eval_team_tech_0830s = []
         eval_team_tech_0930s = []
+        
+        eval_team_rph_0700s = []
+        eval_team_rph_0730wds = []
+        eval_team_tech_0700s = []
+        eval_team_tech_0900s = []
+        eval_team_tech_0730wds = []
+        eval_team_tech_0830s = []
+        eval_team_tech_0930s = []
+        
+        for _eval_cg in eval_team:
+            if _eval_cg.caregivertype == CaregiverType.RPH:
+                eval_team_rph_inpt_locs.append(_eval_cg.inpt_locs)
+                eval_team_rph_retail_locs.append(_eval_cg.retail_locs)
+                
+            if _eval_cg.caregivertype == CaregiverType.TECH:
+                eval_team_tech_inpt_locs.append(_eval_cg.inpt_locs)
+                eval_team_tech_retail_locs.append(_eval_cg.retail_locs)
+        
+        inpt_rph_variance = variance(eval_team_rph_inpt_locs)
+        retail_rph_variance = variance(eval_team_rph_retail_locs)
+        self.shift_locations_rph_score = ( (inpt_rph_variance + retail_rph_variance) * len([cg for cg in team if cg.caregiver_type == CaregiverType.RPH]))
+        
+        inpt_tech_variance = variance(eval_team_tech_inpt_locs)
+        retail_tech_variance = variance(eval_team_tech_retail_locs)
+        self.shift_locations_tech_score = ( (inpt_tech_variance + retail_tech_variance) * len([cg for cg in team if cg.caregiver_type == CaregiverType.TECH]))
+        
+        self.shift_locations_score = self.shift_locations_rph_score + self.shift_locations_tech_score
+        
     
