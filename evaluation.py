@@ -1,3 +1,6 @@
+from evalcaregiver import EvalCaregiver
+
+
 class Evaluation:
     """ Class that contains evaluation methods that will apply to the refinement methods of the assignment class """
 
@@ -8,7 +11,7 @@ class Evaluation:
         self.eval_team = set()
         
         for _caregiver in self.team:
-            self.eval_team.add( [_caregiver.caregiver_id_num, 0] )
+            self.eval_team.add(EvalCaregiver(_caregiver.caregiver_id_num))
         
         self.shift_locations_score = 0
         self.max_shift_locations_score = 0
@@ -42,9 +45,6 @@ class Evaluation:
     
     def evaluate_shift_locations(self):
         """ Evaluate based on variety of shift locations per Caregiver """
-        
-        count0700 = 0
-        count0730wd = 0
         
         for _shift in rph_schedule:
             _shift.caregiver_id_num
