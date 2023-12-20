@@ -86,23 +86,61 @@ class Evaluation:
     def evaluate_shift_times(self):
         """ Evaluate based on variety of shift times per Caregiver """
         
-        eval_team_rph_0700s = []
-        eval_team_rph_0730wds = []
-        
-        eval_team_tech_0700s = []
-        eval_team_tech_0900s = []
-        eval_team_tech_0730s = []
-        eval_team_tech_0830s = []
-        eval_team_tech_0930s = []
-        
         for _shift in rph_schedule:
             if _shift_start_time == 7:
                 for _eval_cg in self.eval_team:
                     if _shift.caregiver_id_num == _eval_cg.caregiver_id_num:
                         _eval_cg.time0700 += 1
+                        break
+        
+        for _shift in rph_schedule:
+            if _shift.start_time == 7.5 and _shift.day_of_week in range(2:7):
+                for _eval_cg in self.eval_team:
+                    if _shift.caregiver_id_num == _eval_cg.caregiver_id_num:
+                        _eval_cg.time0730wd += 1
+                        break
         
         for _shift in tech_schedule:
-            pass
+            if _shift_start_time == 7:
+                for _eval_cg in self.eval_team:
+                    if _shift.caregiver_id_num == _eval_cg.caregiver_id_num:
+                        _eval_cg.time0700 += 1
+                        break
         
+        for _shift in tech_schedule:
+            if _shift_start_time == 9:
+                for _eval_cg in self.eval_team:
+                    if _shift.caregiver_id_num == _eval_cg.caregiver_id_num:
+                        _eval_cg.time0900 += 1
+                        break
         
+        for _shift in tech_schedule:
+            if _shift.start_time == 7.5 and _shift.day_of_week in range(2:7):
+                for _eval_cg in self.eval_team:
+                    if _shift.caregiver_id_num == _eval_cg.caregiver_id_num:
+                        _eval_cg.time0730wd += 1
+                        break
+        
+        for _shift in tech_schedule:
+            if _shift_start_time == 8.5:
+                for _eval_cg in self.eval_team:
+                    if _shift.caregiver_id_num == _eval_cg.caregiver_id_num:
+                        _eval_cg.time0830 += 1
+                        break
+                        
+        for _shift in tech_schedule:
+            if _shift_start_time == 9.5:
+                for _eval_cg in self.eval_team:
+                    if _shift.caregiver_id_num == _eval_cg.caregiver_id_num:
+                        _eval_cg.time0930 += 1
+                        break
+        
+        eval_team_rph_0700s = []
+        eval_team_rph_0730wds = []
+        
+        eval_team_tech_0700s = []
+        eval_team_tech_0900s = []
+        eval_team_tech_0730wds = []
+        eval_team_tech_0830s = []
+        eval_team_tech_0930s = []
     
