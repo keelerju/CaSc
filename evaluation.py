@@ -34,10 +34,24 @@ class Evaluation:
     def evaluate(self):
         """ Evaluate each schedule for the various criteria and generate criteria scores and a composite score. """
 
-        # Evaluate based on variety of shift locations per Caregiver
-        for shift in self.rph_schedule:
+        evaluate_shift_locations(self)
+        evaluate_shift_times(self)
+    
+    def evaluate_shift_locations(self):
+        """ Evaluate based on variety of shift locations per Caregiver """
+        
+        for _shift in rph_schedule:
             pass
-
-        # Evaluate based on variety of start times per Caregiver
-        for shift in self.rph_schedule:
+        
+        for _shift in tech_schedule:
             pass
+    
+    def evaluate_shift_times(self):
+        """ Evaluate based on variety of shift times per Caregiver """
+        
+        for _shift in rph_schedule:
+            pass
+        
+        for _shift in tech_schedule:
+            pass
+    
