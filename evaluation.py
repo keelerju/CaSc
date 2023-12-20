@@ -1,4 +1,5 @@
 from evalcaregiver import EvalCaregiver
+from caregivertype import CaregiverType
 from location import Location
 import statistics
 
@@ -69,11 +70,14 @@ class Evaluation:
         
         inpt_rph_variance = variance(eval_team_rph_inpt_locs)
         retail_rph_variance = variance(eval_team_rph_retail_locs)
+        self.shift_locations_rph_score = ( (inpt_rph_variance + retail_rph_variance) * len([cg for cg in team.team if cg.caregiver_type == CaregiverType.RPH]))
         
-        self.shift_locations_rph_score = ( (inpt_variance + retail_variance) * len(team.team))
+        inpt_tech_variance = variance(eval_team_tech_inpt_locs)
+        retail_tech_variance = variance(eval_team_tech_retail_locs)
+        self.shift_locations_tech_score = ( (inpt_tech_variance + retail_tech_variance) * len([cg for cg in team.team if cg.caregiver_type == CaregiverType.TECH]))
         
         self.shift_locations_score = self.shift_locations_rph_score + self.shift_locations_tech_score
-    
+
     def evaluate_shift_times(self):
         """ Evaluate based on variety of shift times per Caregiver """
         
