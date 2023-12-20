@@ -281,5 +281,6 @@ class Assignment:
         
         self.evaluation.evaluate()
         
+        before_score = evaluation. 
         for shift in self.rph_schedule:
             pass
