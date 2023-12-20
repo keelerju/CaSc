@@ -17,7 +17,7 @@ class Evaluation:
         for _caregiver in self.team:
             self.eval_team.append(EvalCaregiver(_caregiver.caregiver_id_num))
         
-        # score attributes that will be used to evaluate if incremental changes
+        # Score attributes that will be used to evaluate if incremental changes
         # to the schedule are improvements
         self.shift_locations_score = 0
         self.shift_locations_rph_score = 0
