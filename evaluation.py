@@ -47,7 +47,7 @@ class Evaluation:
                         _eval_cg.retail_locs += 1
                         break
         
-        for _shift in tec_schedule:
+        for _shift in tech_schedule:
             if _shift.location == Location.INPATIENT:
                 for _eval_cg in self.eval_team:
                     if _shift.caregiver_id_num == _eval_cg.caregiver_id_num:
