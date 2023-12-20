@@ -135,9 +135,6 @@ class Evaluation:
                         _eval_cg.time0930 += 1
                         break
         
-        eval_team_rph_0700s = []
-        eval_team_rph_0730wds = []
-        
         eval_team_tech_0700s = []
         eval_team_tech_0900s = []
         eval_team_tech_0730wds = []
