@@ -13,12 +13,12 @@ class Evaluation:
         self.team = team
         self.eval_team = []
         
-        # fill the eval_team list with caregivers for purpose of tallying and evaluation
+        # Fill the eval_team list with caregivers for purpose of tallying and evaluation.
         for _caregiver in self.team:
             self.eval_team.append(EvalCaregiver(_caregiver.caregiver_id_num))
         
         # Score attributes that will be used to evaluate if incremental changes
-        # to the schedule are improvements
+        # to the schedule are improvements.
         self.shift_locations_score = 0
         self.shift_locations_rph_score = 0
         self.shift_locations_tech_score = 0
