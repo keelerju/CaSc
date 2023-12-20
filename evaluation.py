@@ -13,9 +13,12 @@ class Evaluation:
         self.team = team
         self.eval_team = []
         
+        # fill the eval_team list with caregivers for purpose of tallying and evaluation
         for _caregiver in self.team:
             self.eval_team.append(EvalCaregiver(_caregiver.caregiver_id_num))
         
+        # score attributes that will be used to evaluate if incremental changes
+        # to the schedule are improvements
         self.shift_locations_score = 0
         self.shift_locations_rph_score = 0
         self.shift_locations_tech_score = 0
@@ -25,13 +28,18 @@ class Evaluation:
         self.shift_times_tech_score = 0
 
     def evaluate(self):
-        """ Evaluate each schedule for the various criteria and generate criteria scores and a composite score. """
-
+        # Evaluate each schedule for the various criteria and generate criteria scores and a composite score.
+        # This method can be called before/after a schedule change to compare scores. 
+        # This method will call all other methods that generate scores from the schedule.
+        # Each method called will update the score attributes.
         evaluate_shift_locations(self)
         evaluate_shift_times(self)
     
     def evaluate_shift_locations(self):
-        """ Evaluate based on variety of shift locations per Caregiver """
+        # Evaluate schedule based on variety of shift locations per Caregiver. 
+        
+        
+        # Firstly, update the tallies for each eval_team caregiver for the number of inpatient and retail shifts they each work.
         
         for _shift in rph_schedule:
             if _shift.location == Location.INPATIENT:
@@ -60,6 +68,8 @@ class Evaluation:
                     if _shift.caregiver_id_num == _eval_cg.caregiver_id_num:
                         _eval_cg.retail_locs += 1
                         break
+        
+        # Secondly, lists are created, where each element is the number of respective shift locations for each caregiver.
         
         eval_team_rph_inpt_locs = []
         eval_team_rph_retail_locs = []
@@ -76,6 +86,8 @@ class Evaluation:
                 eval_team_tech_inpt_locs.append(_eval_cg.inpt_locs)
                 eval_team_tech_retail_locs.append(_eval_cg.retail_locs)
         
+        # Thirdly, variances are calculated based on the individual shift tallies.  The variances are multiplied by the number of caregivers to generate an attribute score.
+        
         inpt_rph_locations = variance(eval_team_rph_inpt_locs)
         retail_rph_locations = variance(eval_team_rph_retail_locs)
         self.shift_locations_rph_score = ( (inpt_rph_variance + retail_rph_variance) * len([cg for cg in team if cg.caregiver_type == CaregiverType.RPH]))
@@ -87,7 +99,9 @@ class Evaluation:
         self.shift_locations_score = self.shift_locations_rph_score + self.shift_locations_tech_score
 
     def evaluate_shift_times(self):
-        """ Evaluate based on variety of shift times per Caregiver """
+        # Evaluate schedule based on variety of shift times per Caregiver. 
+        
+        # Firstly, update the tallies for each eval_team caregiver for the number of weekday shifts with specific start times they each work.
         
         for _shift in rph_schedule:
             if _shift_start_time == 7:
@@ -138,6 +152,8 @@ class Evaluation:
                         _eval_cg.time0930 += 1
                         break
         
+        # Secondly, lists are created, where each element is the number of respective weekday shift start times for each caregiver.
+        
         eval_team_tech_0700s = []
         eval_team_tech_0900s = []
         eval_team_tech_0730wds = []
@@ -163,6 +179,8 @@ class Evaluation:
                 eval_team_tech_0730wd.append(_eval_cg.time0730wd)
                 eval_team_tech_0830.append(_eval_cg.time0830)
                 eval_team_tech_0930.append(_eval_cg.time0930)
+        
+        # Thirdly, variances are calculated based on the individual shift tallies.  The variances are multiplied by the number of caregivers to generate an attribute score.
         
         rph_0700_variance = variance(eval_team_rph_0700)
         rph_0730wd_variance = variance(eval_team_rph_0730wd)
