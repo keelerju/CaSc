@@ -1,5 +1,4 @@
 from evalcaregiver import EvalCaregiver
-from caregivertype import CaregiverType
 from location import Location
 import statistics
 
@@ -34,28 +33,28 @@ class Evaluation:
         """ Evaluate based on variety of shift locations per Caregiver """
         
         for _shift in rph_schedule:
-            if _shift.location == Location.INPATIENT and _shift.caregiver_type == CaregiverType.RPH:
+            if _shift.location == Location.INPATIENT:
                 for _eval_cg in self.eval_team:
                     if _shift.caregiver_id_num == _eval_cg.caregiver_id_num:
                         _eval_cg.inpatient_locs += 1
                         break
         
         for _shift in rph_schedule:
-            if _shift.location == Location.RETAIL and _shift.caregiver_type == CaregiverType.RPH:
+            if _shift.location == Location.RETAIL:
                 for _eval_cg in self.eval_team:
                     if _shift.caregiver_id_num == _eval_cg.caregiver_id_num:
                         _eval_cg.retail_locs += 1
                         break
         
         for _shift in tec_schedule:
-            if _shift.location == Location.INPATIENT and _shift.caregiver_type == CaregiverType.TECH:
+            if _shift.location == Location.INPATIENT:
                 for _eval_cg in self.eval_team:
                     if _shift.caregiver_id_num == _eval_cg.caregiver_id_num:
                         _eval_cg.inpatient_locs += 1
                         break
         
         for _shift in tech_schedule:
-            if _shift.location == Location.RETAIL and _shift.caregiver_type == CaregiverType.TECH:
+            if _shift.location == Location.RETAIL:
                 for _eval_cg in self.eval_team:
                     if _shift.caregiver_id_num == _eval_cg.caregiver_id_num:
                         _eval_cg.retail_locs += 1
