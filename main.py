@@ -65,7 +65,10 @@ def main():
     evaluation = Evaluation(rph_month.rph_schedule, tech_month.tech_schedule, team.team)
     
     assignment = Assignment(rph_month.rph_schedule, tech_month.tech_schedule, team.team, weekend_rotation, evaluation)
-
+    
+    refine_times = int(input("How many refinements would you like to make? "))
+    for _ in range(refine_times):
+        assignment.refinement()
 
 if __name__ == '__main__':
     main()
