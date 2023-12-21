@@ -69,6 +69,9 @@ def main():
     refine_times = int(input("How many refinements would you like to make? "))
     for _ in range(refine_times):
         assignment.refinement()
+    
+    rph_schedule.print_schedule()
+    tech_schedule.print_schedule()
 
 if __name__ == '__main__':
     main()
