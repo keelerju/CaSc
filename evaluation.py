@@ -154,12 +154,6 @@ class Evaluation:
         
         # Secondly, lists are created, where each element is the number of respective weekday shift start times for each caregiver.
         
-        eval_team_tech_0700s = []
-        eval_team_tech_0900s = []
-        eval_team_tech_0730wds = []
-        eval_team_tech_0830s = []
-        eval_team_tech_0930s = []
-        
         eval_team_rph_0700s = []
         eval_team_rph_0730wds = []
         eval_team_tech_0700s = []
