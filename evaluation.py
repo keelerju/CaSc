@@ -27,8 +27,12 @@ class Evaluation:
         self.shift_times_rph_score = 0
         self.shift_times_tech_score = 0
         
-        self.shift_locations_max_variety = 0
-        self.shift_locations_min_variety = 0
+
+        self.shift_locations_min_variety_rph_id = 0
+        self.shift_locations_max_variety_rph_id = 0
+
+        self.shift_locations_min_variety_tech_id = 0
+        self.shift_locations_max_variety_tech_id = 0
 
     def evaluate(self):
         # Evaluate each schedule for the various criteria and generate criteria scores and a composite score.
@@ -79,6 +83,11 @@ class Evaluation:
         
         eval_team_tech_inpt_locs = []
         eval_team_tech_retail_locs = []
+        
+        min_variety_rph = 0
+        max_variety_rph = 0
+        min_variety_tech = 0
+        max_variety_tech = 0
         
         for _eval_cg in eval_team:
             if _eval_cg.caregivertype == CaregiverType.RPH:
