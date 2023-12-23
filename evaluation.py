@@ -93,10 +93,24 @@ class Evaluation:
             if _eval_cg.caregivertype == CaregiverType.RPH:
                 eval_team_rph_inpt_locs.append(_eval_cg.inpt_locs)
                 eval_team_rph_retail_locs.append(_eval_cg.retail_locs)
+                if min_variety_rph == 0 or max_variety == 0:
+                    self.shift_locations_min_variety_rph_id = _eval_cg.caregiver_id_num
+                    self.shift_locations_max_variety_rph_id = _eval_cg.caregiver_id_num
+                if min_variety_rph > _eval_cg.retail_locs:
+                    self.shift_locations_min_variety_rph_id = _eval_cg.caregiver_id_num
+                if max_variety_rph < _eval_cg.retail_locs:
+                    self.shift_locations_max_variety_rph_id = _eval_cg.caregiver_id_num
                 
             if _eval_cg.caregivertype == CaregiverType.TECH:
                 eval_team_tech_inpt_locs.append(_eval_cg.inpt_locs)
                 eval_team_tech_retail_locs.append(_eval_cg.retail_locs)
+                if min_variety_tech == 0 or max_variety == 0:
+                    self.shift_locations_min_variety_tech_id = _eval_cg.caregiver_id_num
+                    self.shift_locations_max_variety_tech_id = _eval_cg.caregiver_id_num
+                if min_variety_tech > _eval_cg.retail_locs:
+                    self.shift_locations_min_variety_tech_id = _eval_cg.caregiver_id_num
+                if max_variety_tech < _eval_cg.retail_locs:
+                    self.shift_locations_max_variety_tech_id = _eval_cg.caregiver_id_num
         
         # Thirdly, variances are calculated based on the individual shift tallies.  The variances are divided by the number of caregivers to generate an attribute score.
         
