@@ -285,7 +285,9 @@ class Assignment:
         
         # Make a change to the schedule among non-perdiem Caregivers that doesn't violate any cant_dates or must_dates. 
         for shift in self.rph_schedule:
-            pass
+            shift_min_choice = choice(evaluation.scores_rph_min_variety)
+            shift_max_choice = choice(evaluation.scores_rph_max_variety)
+            shift_min_choice, shift_max_choice = shift_max_choice, shift_min_choice
         
         # Calculate the after score. 
         self.evaluation.evaluate()
