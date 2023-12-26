@@ -284,6 +284,7 @@ class Assignment:
         before_score = evaluation.shift_locations.score + evaluation.shift_times_score
         
         # Make a change to the schedule among non-perdiem Caregivers that doesn't violate any cant_dates or must_dates. 
+        # but really build this out though... unfinished method!!
         for shift in self.rph_schedule:
             shift_min_choice = choice(evaluation.scores_rph_min_variety)
             shift_max_choice = choice(evaluation.scores_rph_max_variety)
