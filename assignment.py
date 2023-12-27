@@ -281,18 +281,18 @@ class Assignment:
         
         # Calculate before score. 
         self.evaluation.evaluate()
-        before_score = evaluation.shift_locations.score + evaluation.shift_times_score
+        before_score = self.evaluation.shift_locations.score + self.evaluation.shift_times_score
         
         # Make a change to the schedule among non-perdiem Caregivers that doesn't violate any cant_dates or must_dates. 
-        # but really build this out though... unfinished method!!
+        # ===== unfinished method!!
         for shift in self.rph_schedule:
-            shift_min_choice = choice(evaluation.scores_rph_min_variety)
-            shift_max_choice = choice(evaluation.scores_rph_max_variety)
+            shift_min_choice = choice(self.evaluation.scores_rph_min_variety)
+            shift_max_choice = choice(self.evaluation.scores_rph_max_variety)
             shift_min_choice, shift_max_choice = shift_max_choice, shift_min_choice
         
         # Calculate the after score. 
         self.evaluation.evaluate()
-        after_score = evaluation.shift_locations.score + evaluation.shift_times_score
+        after_score = self.evaluation.shift_locations.score + self.evaluation.shift_times_score
         
         # If the before score is greater or equal to the after score, undo the schedule change. 
         pass
