@@ -38,10 +38,10 @@ class Evaluation:
         # This method can be called before/after a schedule change to compare scores. 
         # This method will call all other methods that generate scores from the schedule.
         # Each method called will update the score attributes.
-        self.evaluate_shift_locations()
-        self.evaluate_shift_times()
+        self._evaluate_shift_locations()
+        self._evaluate_shift_times()
     
-    def evaluate_shift_locations(self):
+    def _evaluate_shift_locations(self):
         # Evaluate schedule based on variety of shift locations per Caregiver. 
 
         # Firstly, update the tallies for each eval_team caregiver for
@@ -129,7 +129,7 @@ class Evaluation:
         
         self.shift_locations_score = self.shift_locations_rph_score + self.shift_locations_tech_score
 
-    def evaluate_shift_times(self):
+    def _evaluate_shift_times(self):
         # Evaluate schedule based on variety of shift times per Caregiver. 
         
         # Firstly, update the tallies for each eval_team caregiver for the number of
